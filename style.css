@@ -1,0 +1,620 @@
+/* ============================================
+   RESET E CONFIGURAÇÕES GLOBAIS
+   (Bootstrap já faz a maior parte do reset)
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bs-primary: #2d6a4f;
+    --bs-primary-rgb: 45, 106, 79;
+    --bs-secondary: #40916c;
+    --bs-secondary-rgb: 64, 145, 108;
+    --bs-body-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --bs-body-color: #333;
+}
+
+body {
+    font-family: var(--bs-body-font-family);
+    line-height: 1.6;
+    color: var(--bs-body-color);
+    scroll-padding-top: 70px; /* Ajusta o alvo do scroll por causa do header fixo */
+}
+
+.container {
+    max-width: 1200px;
+}
+
+section {
+    padding: 80px 20px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #2d6a4f;
+    margin-bottom: 20px;
+}
+
+.section-subtitle {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 60px;
+    color: #666;
+}
+
+/* ============================================
+   HEADER / NAVEGAÇÃO
+   ============================================ */
+.navbar {
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Estilos do Header Transparente */
+.navbar:not(.scrolled) {
+    background: transparent !important;
+}
+
+.navbar:not(.scrolled) .logo { color: #fff; }
+.navbar:not(.scrolled) .logo span { color: #f0f0f0; }
+.navbar:not(.scrolled) .nav-link { color: #fff; }
+.navbar:not(.scrolled) .nav-link:hover { color: rgba(255, 255, 255, 0.8); }
+.navbar:not(.scrolled) .btn-agendar {
+    border-color: #fff;
+    color: #fff !important;
+}
+.navbar:not(.scrolled) .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Estilos do Header com Scroll */
+.navbar.scrolled {
+    background: #fff !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.scrolled .logo { color: #2d6a4f; }
+.navbar.scrolled .logo span { color: #1b4332; }
+.navbar.scrolled .nav-link { color: #333; }
+.navbar.scrolled .nav-link:hover { color: #2d6a4f; }
+.navbar.scrolled .btn-agendar {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: #fff !important;
+}
+.navbar.scrolled .btn-agendar:hover {
+    background-color: #1b4332;
+    border-color: #1b4332;
+}
+
+.btn-agendar {
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+    padding: 0;
+    height: 100vh;
+    color: #fff;
+}
+
+.carousel, .carousel-inner, .carousel-item {
+    height: 100%;
+}
+
+.carousel-item {
+    background-size: cover;
+    background-position: center;
+}
+
+.carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.carousel-caption {
+    position: static;
+}
+
+.carousel-caption h1, .carousel-caption .lead {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+/* Animação do texto do slide */
+.carousel-item .carousel-caption > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.carousel-item.active .carousel-caption > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Atraso para criar efeito escalonado (stagger) */
+.carousel-item.active .carousel-caption h1 { transition-delay: 0.4s; }
+.carousel-item.active .carousel-caption .lead { transition-delay: 0.6s; }
+.carousel-item.active .carousel-caption .hero-buttons { transition-delay: 0.8s; }
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   BOTÕES
+   ============================================ */
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   SOBRE
+   ============================================ */
+.sobre-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.galeria-main-image img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.galeria-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.galeria-thumbnails .thumbnail {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s, transform 0.3s;
+    border: 2px solid transparent;
+}
+
+.galeria-thumbnails .thumbnail:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.galeria-thumbnails .thumbnail.active {
+    opacity: 1;
+    border-color: var(--bs-primary);
+}
+
+/* ============================================
+   SERVIÇOS (CARDS)
+   ============================================ */
+.service-card {
+    cursor: pointer;
+}
+
+.card {
+    border: none;
+    border-radius: 15px !important;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--bs-primary);
+}
+
+.card-title {
+    color: var(--bs-primary);
+    font-size: 1.25rem;
+}
+
+/* ============================================
+   SERVIÇOS (CÍRCULO ROTATIVO)
+   ============================================ */
+.servicos-circle-bg {
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+.services-circle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    min-height: 550px;
+    position: relative;
+}
+
+.service-wheel-wrapper {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    flex-shrink: 0;
+}
+
+.service-wheel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+    /* A animação de rotação será controlada por JS */
+}
+
+.service-wheel::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(0,0,0,0.07);
+}
+
+.service-circle-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90px;
+    height: 90px;
+    margin: -45px; /* Metade da largura/altura para centralizar a origem da transformação */
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.4s ease, background-color 0.4s ease;
+    z-index: 10;
+}
+
+.service-circle-item .service-icon {
+    font-size: 2.8rem;
+    transition: transform 0.4s ease;
+}
+
+.service-circle-item.active {
+    background-color: var(--bs-primary);
+    color: #fff;
+    transform: scale(1.15) !important; /* !important para sobrepor o transform de posicionamento */
+    z-index: 20;
+}
+
+.service-details-content {
+    max-width: 400px;
+    text-align: left;
+    position: relative;
+    z-index: 5;
+}
+
+.service-details-content h3,
+.service-details-content p {
+    transition: opacity 0.5s ease-in-out;
+}
+
+.service-details-content.fade-out h3,
+.service-details-content.fade-out p {
+    opacity: 0;
+}
+
+/* ============================================
+   DEPOIMENTOS
+   ============================================ */
+.depoimentos {
+    background: #f0faf3;
+}
+
+.depoimento-card {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.stars {
+    color: #f4c542;
+    margin-bottom: 15px;
+}
+
+.paciente {
+    font-weight: 600;
+    color: var(--bs-primary);
+    font-style: normal;
+}
+
+/* ============================================
+   NOTÍCIAS
+   ============================================ */
+#noticias {
+    background: #f9f9f9;
+}
+
+.card-noticia {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.card-noticia .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.btn-leia-mais {
+    color: var(--bs-primary);
+    text-decoration: none;
+    font-weight: 600;
+    align-self: flex-start;
+}
+
+.btn-leia-mais:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   CONTATO / FORMULÁRIO
+   ============================================ */
+.contato-info h3 {
+    color: var(--bs-primary);
+    margin-bottom: 20px;
+}
+
+.contato-info .info-item {
+    margin-bottom: 15px;
+    color: #555 !important;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1rem;
+}
+
+.contato-info .info-item a, .contato-info p a {
+    color: #555 !important;
+    text-decoration: none;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: none;
+    border-color: var(--bs-primary);
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+.modal-header {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-title {
+    color: var(--bs-primary);
+    display: flex;
+    align-items: center;
+}
+
+.modal-icon {
+    font-size: 1.8rem;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+    background: #1b4332;
+    padding: 50px 20px 30px;
+}
+
+.footer-trust {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.trust-seal {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.trust-seal:hover {
+    opacity: 1;
+}
+
+.trust-seal span {
+    font-size: 2.5rem;
+}
+
+.trust-seal p {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* ============================================
+   ANIMAÇÕES (ON SCROLL)
+   ============================================ */
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transition-delay: var(--stagger-delay, 0s);
+}
+
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================
+   BOTÃO "VOLTAR AO TOPO"
+   ============================================ */
+#backToTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    background-color: var(--bs-primary);
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+}
+
+#backToTopBtn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#backToTopBtn:hover {
+    background-color: #1b4332;
+}
+
+/* ============================================
+   PRELOADER
+   ============================================ */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--bs-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+@media (max-width: 768px) {
+    section {
+        padding: 50px 20px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .section-subtitle {
+        margin-bottom: 40px;
+    }
+
+    .hero {
+        height: 70vh;
+    }
+
+    .galeria-thumbnails {
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    }
+
+    .services-circle-container {
+        flex-direction: column;
+        gap: 3rem;
+    }
+    .service-details-content {
+        text-align: center;
+        max-width: 500px;
+        order: 1; /* Show text first */
+    }
+    .service-wheel-wrapper {
+        order: 2;
+    }
+}
+
+@media (max-width: 576px) {
+    .service-wheel-wrapper {
+        width: 320px;
+        height: 320px;
+    }
+    .service-circle-item {
+        width: 65px;
+        height: 65px;
+        margin: -32.5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-buttons .btn {
+        width: 100%;
+    }
+
+    .footer-trust {
+        gap: 25px;
+    }
+
+    #backToTopBtn {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        bottom: 20px;
+        right: 20px;
+    }
+}

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital do Mal de Hansen de Cumura</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-lg" id="mainNavbar">
+            <div class="container">
+                <a class="navbar-brand logo" href="#">Hansen <span>Cumura</span></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navLinks">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                        <li class="nav-item"><a class="nav-link" href="#home">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#sobre">Hospital</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
+                        <li class="nav-item"><a class="nav-link" href="noticias.php">Notícias</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#depoimentos">Depoimentos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+                        <li class="nav-item ms-lg-3"><a href="#contato" class="btn btn-agendar rounded-pill">Agendar Consulta</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="8000">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="background-image: url('images/hero-1.jpg');">
+                    <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+                        <h1 class="display-4">Cuidado Humanizado e Excelência Médica</h1>
+                        <p class="lead">Há décadas cuidando de pessoas com hanseníase com dignidade e tratamento de ponta.</p>
+                        <div class="hero-buttons mt-4">
+                            <a href="#contato" class="btn btn-primary btn-lg rounded-pill">Agende sua Consulta</a>
+                            <a href="#sobre" class="btn btn-outline-light btn-lg rounded-pill">Nossa História</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('images/hero-2.jpg');">
+                    <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+                        <h1 class="display-4">Reabilitação que Transforma Vidas</h1>
+                        <p class="lead">Oferecemos fisioterapia e apoio para a reintegração social dos nossos pacientes.</p>
+                        <div class="hero-buttons mt-4">
+                            <a href="#servicos" class="btn btn-primary btn-lg rounded-pill">Nossos Serviços</a>
+                            <a href="#depoimentos" class="btn btn-outline-light btn-lg rounded-pill">Histórias Reais</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('images/hero-3.jpg');">
+                    <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+                        <h1 class="display-4">Junte-se à Nossa Missão</h1>
+                        <p class="lead">Sua doação ajuda a manter o tratamento gratuito e a combater o estigma da hanseníase.</p>
+                        <div class="hero-buttons mt-4">
+                            <a href="#contato" class="btn btn-primary btn-lg rounded-pill">Faça uma Doação</a>
+                            <a href="noticias.php" class="btn btn-outline-light btn-lg rounded-pill">Últimas Notícias</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Próximo</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 fade-up">
+                    <h2>Nossa História</h2>
+                    <p>O <strong>Hospital do Mal de Hansen de Cumura</strong> é uma instituição de referência no tratamento da hanseníase (mal de Hansen) na região de Biombo, Guiné-Bissau. Fundado durante o período colonial, o hospital tornou-se um símbolo de acolhimento e cuidado para centenas de pacientes ao longo das décadas.</p>
+                    <p>Localizado na zona rural de Cumura, a cerca de 30 km de Bissau, o hospital oferece tratamento especializado, reabilitação física e apoio psicossocial para pessoas afetadas pela hanseníase, muitas das quais enfrentam estigma e exclusão social.</p>
+                    <p>Contamos com uma equipe multidisciplinar dedicada, incluindo médicos, enfermeiros, fisioterapeutas e assistentes sociais, todos comprometidos com a missão de devolver dignidade e qualidade de vida aos nossos pacientes.</p>
+                    <p><strong>Cumura, Região de Biombo, Guiné-Bissau</strong></p>
+                </div>
+                <div class="col-lg-6 fade-up">
+                    <div class="galeria-main-image">
+                        <img src="img/patio_3.jpeg" alt="Vista do pátio do hospital" id="mainGalleryImage">
+                    </div>
+                    <div class="galeria-thumbnails">
+                        <img src="img/patio_1.jpeg" alt="Vista do pátio do hospital" class="thumbnail active">
+                        <img src="img/patio_10.jpeg" alt="Equipe de enfermagem" class="thumbnail">
+                        <img src="img/patio_2.jpeg" alt="Paciente em sessão de fisioterapia" class="thumbnail">
+                        <img src="img/patio_6.jpeg" alt="Fachada do hospital" class="thumbnail">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Serviços -->
+    <section id="servicos" class="servicos-circle-bg">
+        <div class="container">
+            <h2 class="section-title fade-up">Nossos Serviços</h2>
+            <p class="section-subtitle fade-up">Oferecemos assistência completa e humanizada para pacientes com hanseníase e suas famílias.</p>
+
+            <div class="services-circle-container fade-up">
+                <div class="service-details-content">
+                    <h3 id="service-circle-title"></h3>
+                    <p id="service-circle-details"></p>
+                    <a href="#contato" class="btn btn-primary rounded-pill mt-3">Saber Mais</a>
+                </div>
+                <div class="service-wheel-wrapper">
+                    <div class="service-wheel">
+                        <!-- Itens serão gerados por JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos -->
+    <section class="depoimentos" id="depoimentos">
+        <div class="container">
+            <h2 class="section-title fade-up">Histórias de Superação</h2>
+            <p class="section-subtitle fade-up">Conheça relatos de pacientes que encontraram acolhimento e tratamento no Hospital de Cumura.</p>
+            <div class="row g-4">
+                <div class="col-lg-4 fade-up">
+                    <div class="depoimento-card card h-100">
+                        <div class="card-body">
+                            <div class="stars">★★★★★</div>
+                            <p class="card-text">"Cheguei ao hospital sem esperança. Hoje, depois do tratamento, posso trabalhar novamente e cuidar da minha família. Sou grato a toda a equipe."</p>
+                            <p class="paciente">— Mamadu Sissé</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 fade-up">
+                    <div class="depoimento-card card h-100">
+                        <div class="card-body">
+                            <div class="stars">★★★★★</div>
+                            <p class="card-text">"O Hospital de Cumura me acolheu quando fui rejeitada pela minha própria comunidade. Aqui encontrei tratamento, respeito e uma nova família."</p>
+                            <p class="paciente">— Fátima Baldé</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 fade-up">
+                    <div class="depoimento-card card h-100">
+                        <div class="card-body">
+                            <div class="stars">★★★★★</div>
+                            <p class="card-text">"Meu filho foi diagnosticado cedo graças ao trabalho de conscientização do hospital. Hoje ele está curado e estuda normalmente. Que bênção!"</p>
+                            <p class="paciente">— Maria da Silva</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notícias -->
+    <section id="noticias">
+        <div class="container">
+            <h2 class="section-title fade-up">Últimas Notícias</h2>
+            <p class="section-subtitle fade-up">Fique por dentro das novidades, eventos e campanhas do Hospital de Cumura.</p>
+            <div class="row g-4">
+                <!-- Exemplo de notícia 1 -->
+                <div class="col-lg-4 col-md-6 fade-up">
+                    <div class="card-noticia card h-100">
+                        <picture>
+                            <source srcset="images/medicos-estrangeiros.webp" type="image/webp">
+                            <img src="images/medicos-estrangeiros.jpg" class="card-img-top" alt="Médicos voluntários em missão" loading="lazy" decoding="async" style="background-color: #ccc;">
+                        </picture>
+                        <div class="card-body d-flex flex-column">
+                            <p class="card-text"><small class="text-muted">08 de Julho, 2026</small></p>
+                            <h5 class="card-title">Missão de Cirurgiões Internacionais em Cumura</h5>
+                            <p class="card-text">Recebemos uma equipe de cirurgiões voluntários que realizarão cirurgias reparadoras durante todo o mês de agosto.</p>
+                            <a href="noticias.php?id=missao-cirurgioes-2026" class="btn-leia-mais mt-auto">Leia Mais →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 fade-up">
+                    <div class="card-noticia card h-100">
+                        <picture>
+                            <source srcset="images/campanha-conscientizacao.webp" type="image/webp">
+                            <img src="images/campanha-conscientizacao.jpg" class="card-img-top" alt="Pessoas participando de uma palestra" loading="lazy" decoding="async" style="background-color: #ccc;">
+                        </picture>
+                        <div class="card-body d-flex flex-column">
+                            <p class="card-text"><small class="text-muted">25 de Junho, 2026</small></p>
+                            <h5 class="card-title">Campanha de Conscientização nas Aldeias</h5>
+                            <p class="card-text">Nossa equipe móvel visitou 5 aldeias na região de Biombo para educar a população sobre os sinais da hanseníase.</p>
+                            <a href="noticias.php?id=campanha-conscientizacao-jun-2026" class="btn-leia-mais mt-auto">Leia Mais →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 fade-up">
+                    <div class="card-noticia card h-100">
+                        <picture>
+                            <source srcset="images/doacao-medicamentos.webp" type="image/webp">
+                            <img src="images/doacao-medicamentos.jpg" class="card-img-top" alt="Caixas de medicamentos" loading="lazy" decoding="async" style="background-color: #ccc;">
+                        </picture>
+                        <div class="card-body d-flex flex-column">
+                            <p class="card-text"><small class="text-muted">10 de Junho, 2026</small></p>
+                            <h5 class="card-title">Hospital Recebe Doação de Medicamentos Essenciais</h5>
+                            <p class="card-text">Uma parceria com a OMS garantiu o fornecimento de PQT para o tratamento de todos os nossos pacientes por mais um ano.</p>
+                            <a href="noticias.php?id=doacao-medicamentos-oms-2026" class="btn-leia-mais mt-auto">Leia Mais →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5 fade-up">
+                <a href="noticias.php" class="btn btn-primary btn-lg rounded-pill">Ver Todas as Notícias</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato / Agendamento -->
+    <section id="contato">
+        <div class="container">
+            <h2 class="section-title fade-up">Entre em Contato</h2>
+            <p class="section-subtitle fade-up">Agende uma consulta ou tire suas dúvidas sobre nossos serviços.</p>
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-5 fade-up">
+                    <h3>Informações de Contato</h3>
+                    <div class="info-item"><span></span> <a href="tel:+245960000000" class="text-decoration-none">+245 96 000 0000</a></div>
+                    <div class="info-item"><span>📧</span> <a href="mailto:contato@hansencumura.gw" class="text-decoration-none">contato@hansencumura.gw</a></div>
+                    <div class="info-item"><span>📍</span> <p class="mb-0">Cumura, Região de Biombo, Guiné-Bissau</p></div>
+                    <div class="info-item"><span>🕐</span> <p class="mb-0">Seg a Sex: 8h - 17h</p></div>
+                    <br>
+                    <p><strong>Emergência:</strong> <a href="tel:+245961111111" class="text-decoration-none">+245 96 111 1111</a></p>
+                    <br>
+                    <p><em>"Cuidar com dignidade é a nossa missão."</em></p>
+                </div>
+                <div class="col-lg-7 fade-up">
+                    <form id="formAgendamento">
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome completo</label>
+                            <input type="text" class="form-control" id="nome" placeholder="Seu nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefone" class="form-label">Telefone</label>
+                            <input type="tel" class="form-control" id="telefone" placeholder="+245 96 000 0000" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="assunto" class="form-label">Assunto</label>
+                            <select class="form-select" id="assunto" required>
+                                <option value="">Selecione...</option>
+                                <option>Agendamento de Consulta</option>
+                                <option>Informações sobre Tratamento</option>
+                                <option>Visita Domiciliar</option>
+                                <option>Apoio Psicossocial</option>
+                                <option>Doações e Parcerias</option>
+                                <option>Outro</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mensagem" class="form-label">Mensagem (Opcional)</label>
+                            <textarea class="form-control" id="mensagem" rows="4" placeholder="Conte-nos como podemos ajudar..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill btn-submit">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-white text-center">
+        <div class="container">
+            <p class="mb-1">&copy; 2026 Hospital do Mal de Hansen de Cumura. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Botão Voltar ao Topo -->
+    <button id="backToTopBtn" title="Voltar ao topo">↑</button>
+
+    <!-- Service Modal -->
+    <div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="serviceModalLabel">
+                <span class="modal-icon me-2"></span>
+                <span class="modal-title-text"></span>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Fechar</button>
+            <a href="#contato" class="btn btn-primary rounded-pill" id="modalAgendarBtn">Agendar Consulta</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
