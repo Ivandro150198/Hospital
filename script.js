@@ -173,13 +173,13 @@ function initHeroSlider() {
     // --- CONFIGURAÇÃO ---
     // Adicione os caminhos para as suas imagens aqui.
     const images = [
-        'img/patio_1.jpeg',
-        'img/patio_2.jpeg',
-        'img/patio_3.jpeg',
-        'img/patio_4.jpeg',
-        'img/patio_5.jpeg',
-        'img/patio_6.jpeg',
-        'img/patio_7.jpeg'
+        'images/patio_1.jpeg',
+        'images/patio_2.jpeg',
+        'images/patio_3.jpeg',
+        'images/patio_4.jpeg',
+        'images/patio_5.jpeg',
+        'images/patio_6.jpeg',
+        'images/patio_7.jpeg'
     ];
     const slideDuration = 5000; // Tempo que cada imagem fica visível (em milissegundos)
     const transitionDuration = 1000; // Duração da transição de uma imagem para outra (em milissegundos)
@@ -245,6 +245,51 @@ function initServicesCircle() {
             details: 'Diagnóstico precoce, poliquimioterapia (PQT) e acompanhamento médico contínuo para todos os estágios da hanseníase.'
         },
         {
+            icon: '🔬',
+            title: 'Laboratório de Análise Clínica',
+            details: 'Exames laboratoriais completos, testes diagnósticos para hanseníase e demais análises clínicas necessárias.'
+        },
+        {
+            icon: '🩹',
+            title: 'Dermatologia',
+            details: 'Avaliação e tratamento de manifestações dermatológicas, incluindo lesões de pele e dermatites.'
+        },
+        {
+            icon: '👁️',
+            title: 'Oftalmologia',
+            details: 'Avaliação oftalmológica, tratamento de complicações oftalmológicas e prevenção da cegueira.'
+        },
+        {
+            icon: '🫁',
+            title: 'Tuberculose (TB)',
+            details: 'Diagnóstico e tratamento especializado de tuberculose, com acompanhamento multidisciplinar.'
+        },
+        {
+            icon: '👶',
+            title: 'Maternidade',
+            details: 'Acompanhamento pré-natal, parto seguro e puerpério com protocolos de segurança para gestantes com hanseníase.'
+        },
+        {
+            icon: '🏥',
+            title: 'Radiologia',
+            details: 'Serviços de diagnóstico por imagem: raios-X, ultrassonografia e demais exames radiológicos.'
+        },
+        {
+            icon: '⚕️',
+            title: 'Medicina Interna',
+            details: 'Atendimento clínico geral e manejo de complicações sistêmicas associadas às doenças.'
+        },
+        {
+            icon: '🔪',
+            title: 'Cirurgia',
+            details: 'Cirurgias reparadoras, procedimentos cirúrgicos e intervenções de urgência quando necessário.'
+        },
+        {
+            icon: '🚨',
+            title: 'UCI (Unidade de Cuidados Intensivos)',
+            details: 'Cuidados intensivos para pacientes críticos com monitoramento contínuo e suporte avançado.'
+        },
+        {
             icon: '🦿',
             title: 'Reabilitação Física',
             details: 'Fisioterapia, órteses, próteses e cirurgias reparadoras para prevenir e tratar incapacidades físicas.'
@@ -253,11 +298,6 @@ function initServicesCircle() {
             icon: '🧠',
             title: 'Apoio Psicossocial',
             details: 'Acompanhamento psicológico, grupos de apoio e reinserção social para pacientes e familiares.'
-        },
-        {
-            icon: '🩹',
-            title: 'Curativos e Feridas',
-            details: 'Tratamento especializado de úlceras e feridas crônicas com técnica asséptica e materiais adequados.'
         },
         {
             icon: '📋',
@@ -396,3 +436,137 @@ function initPreloader() {
 }
 
 initPreloader();
+
+/* ============================================
+   GALERIA DE NOTÍCIAS
+   ============================================ */
+function toggleGallery(element) {
+    const gallery = element.parentElement.nextElementSibling;
+    if (gallery && gallery.classList.contains('news-gallery-thumbnails')) {
+        gallery.classList.toggle('show');
+        element.textContent = gallery.style.display === 'none' || gallery.classList.contains('show') ? '✕ Fechar' : '+3 Fotos';
+    }
+}
+
+function expandGallery(img) {
+    const allImages = Array.from(img.closest('.news-gallery-modal').querySelectorAll('.modal-thumb')).map(el => el.src);
+    const currentIndex = allImages.indexOf(img.src);
+    
+    const modal = document.createElement('div');
+    modal.className = 'image-viewer-modal';
+    modal.innerHTML = `
+        <div class="image-viewer-overlay" onclick="if(event.target === this) this.parentElement.remove()"></div>
+        <div class="image-viewer-container">
+            <div class="image-viewer-header">
+                <span class="image-counter"><span class="current">1</span>/<span class="total">${allImages.length}</span></span>
+                <button class="btn-close-modal" onclick="this.closest('.image-viewer-modal').remove()" title="Fechar (ESC)">✕</button>
+            </div>
+            
+            <div class="image-viewer-body">
+                <button class="nav-btn nav-prev" onclick="navGallery(-1)" title="Anterior">‹</button>
+                <div class="image-display-container">
+                    <img class="image-display" src="${img.src}" alt="Imagem">
+                </div>
+                <button class="nav-btn nav-next" onclick="navGallery(1)" title="Próximo">›</button>
+            </div>
+            
+            <div class="image-viewer-footer">
+                <button class="zoom-btn" onclick="zoomImage(0.8)" title="Diminuir zoom">−</button>
+                <button class="zoom-btn" onclick="zoomImage(1)" title="Zoom 100%">⊕</button>
+                <button class="zoom-btn" onclick="zoomImage(1.2)" title="Aumentar zoom">+</button>
+                <div class="thumbnails-nav">
+                    ${allImages.map((src, idx) => `<img src="${src}" class="thumb-nav ${idx === currentIndex ? 'active' : ''}" onclick="goToImage(${idx})" alt="Thumb">`).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Armazenar estado do modal
+    const state = {
+        currentIndex: currentIndex,
+        images: allImages,
+        scale: 1
+    };
+    modal.galleryState = state;
+    
+    // Atualizar contador
+    updateImageCounter(modal);
+    
+    // Atalhos de teclado
+    const keyHandler = (e) => {
+        if (!document.body.contains(modal)) {
+            window.removeEventListener('keydown', keyHandler);
+            return;
+        }
+        if (e.key === 'ArrowLeft') navGallery(-1);
+        if (e.key === 'ArrowRight') navGallery(1);
+        if (e.key === 'Escape') modal.remove();
+        if (e.key === '+' || e.key === '=') zoomImage(1.2);
+        if (e.key === '-') zoomImage(0.8);
+    };
+    window.addEventListener('keydown', keyHandler);
+    
+    // Suporte a toque/swipe
+    let touchStartX = 0;
+    const imageDisplay = modal.querySelector('.image-display');
+    imageDisplay.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+    imageDisplay.addEventListener('touchend', e => {
+        const touchEndX = e.changedTouches[0].clientX;
+        if (touchStartX - touchEndX > 50) navGallery(1);
+        if (touchEndX - touchStartX > 50) navGallery(-1);
+    });
+}
+
+function navGallery(direction) {
+    const modal = document.querySelector('.image-viewer-modal');
+    if (!modal) return;
+    
+    const state = modal.galleryState;
+    state.currentIndex = (state.currentIndex + direction + state.images.length) % state.images.length;
+    
+    const imageDisplay = modal.querySelector('.image-display');
+    imageDisplay.style.opacity = '0.5';
+    imageDisplay.src = state.images[state.currentIndex];
+    imageDisplay.style.animation = 'none';
+    setTimeout(() => {
+        imageDisplay.style.animation = 'fadeIn 0.3s ease-in-out';
+        imageDisplay.style.opacity = '1';
+    }, 10);
+    
+    // Atualizar thumbnails
+    modal.querySelectorAll('.thumb-nav').forEach((thumb, idx) => {
+        thumb.classList.toggle('active', idx === state.currentIndex);
+    });
+    
+    state.scale = 1;
+    imageDisplay.style.transform = 'scale(1)';
+    
+    updateImageCounter(modal);
+}
+
+function goToImage(index) {
+    const modal = document.querySelector('.image-viewer-modal');
+    if (!modal) return;
+    const state = modal.galleryState;
+    const direction = index - state.currentIndex;
+    navGallery(direction);
+}
+
+function zoomImage(scale) {
+    const modal = document.querySelector('.image-viewer-modal');
+    if (!modal) return;
+    
+    const state = modal.galleryState;
+    state.scale = scale === 1 ? 1 : state.scale * scale;
+    state.scale = Math.max(0.5, Math.min(state.scale, 3));
+    
+    const imageDisplay = modal.querySelector('.image-display');
+    imageDisplay.style.transform = `scale(${state.scale})`;
+}
+
+function updateImageCounter(modal) {
+    const state = modal.galleryState;
+    modal.querySelector('.current').textContent = state.currentIndex + 1;
+}

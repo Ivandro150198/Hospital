@@ -28,7 +28,7 @@
                         <li class="nav-item"><a class="nav-link" href="#home">Início</a></li>
                         <li class="nav-item"><a class="nav-link" href="#sobre">Hospital</a></li>
                         <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
-                        <li class="nav-item"><a class="nav-link" href="noticias.php">Notícias</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#noticias">Notícias</a></li>
                         <li class="nav-item"><a class="nav-link" href="#depoimentos">Depoimentos</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
                         <li class="nav-item ms-lg-3"><a href="#contato" class="btn btn-agendar rounded-pill">Agendar Consulta</a></li>
@@ -47,7 +47,7 @@
                 <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner">
-                <div class="carousel-item active" style="background-image: url('images/hero-1.jpg');">
+                <div class="carousel-item active" style="background-image: url('images/patio_10.jpeg');">
                     <div class="carousel-caption d-flex flex-column justify-content-center h-100">
                         <h1 class="display-4">Cuidado Humanizado e Excelência Médica</h1>
                         <p class="lead">Há décadas cuidando de pessoas com hanseníase com dignidade e tratamento de ponta.</p>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="carousel-item" style="background-image: url('images/hero-2.jpg');">
+                <div class="carousel-item" style="background-image: url('images/patio_2.jpg');">
                     <div class="carousel-caption d-flex flex-column justify-content-center h-100">
                         <h1 class="display-4">Reabilitação que Transforma Vidas</h1>
                         <p class="lead">Oferecemos fisioterapia e apoio para a reintegração social dos nossos pacientes.</p>
@@ -67,13 +67,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="carousel-item" style="background-image: url('images/hero-3.jpg');">
+                <div class="carousel-item" style="background-image: url('images/patio_3.jpg');">
                     <div class="carousel-caption d-flex flex-column justify-content-center h-100">
                         <h1 class="display-4">Junte-se à Nossa Missão</h1>
                         <p class="lead">Sua doação ajuda a manter o tratamento gratuito e a combater o estigma da hanseníase.</p>
                         <div class="hero-buttons mt-4">
                             <a href="#contato" class="btn btn-primary btn-lg rounded-pill">Faça uma Doação</a>
-                            <a href="noticias.php" class="btn btn-outline-light btn-lg rounded-pill">Últimas Notícias</a>
+                            <a href="#noticias" class="btn btn-outline-light btn-lg rounded-pill">Últimas Notícias</a>
                         </div>
                     </div>
                 </div>
@@ -102,13 +102,13 @@
                 </div>
                 <div class="col-lg-6 fade-up">
                     <div class="galeria-main-image">
-                        <img src="img/patio_3.jpeg" alt="Vista do pátio do hospital" id="mainGalleryImage">
+                        <img src="images/patio_3.jpeg" alt="Vista do pátio do hospital" id="mainGalleryImage">
                     </div>
                     <div class="galeria-thumbnails">
-                        <img src="img/patio_1.jpeg" alt="Vista do pátio do hospital" class="thumbnail active">
-                        <img src="img/patio_10.jpeg" alt="Equipe de enfermagem" class="thumbnail">
-                        <img src="img/patio_2.jpeg" alt="Paciente em sessão de fisioterapia" class="thumbnail">
-                        <img src="img/patio_6.jpeg" alt="Fachada do hospital" class="thumbnail">
+                        <img src="images/patio_1.jpeg" alt="Vista do pátio do hospital" class="thumbnail active">
+                        <img src="images/patio_10.jpeg" alt="Equipe de enfermagem" class="thumbnail">
+                        <img src="images/patio_2.jpeg" alt="Paciente em sessão de fisioterapia" class="thumbnail">
+                        <img src="images/patio_6.jpeg" alt="Fachada do hospital" class="thumbnail">
                     </div>
                 </div>
             </div>
@@ -179,100 +179,171 @@
             <h2 class="section-title fade-up">Últimas Notícias</h2>
             <p class="section-subtitle fade-up">Fique por dentro das novidades, eventos e campanhas do Hospital de Cumura.</p>
             <div class="row g-4">
-                <!-- Exemplo de notícia 1 -->
+                <!-- Notícia 1 -->
                 <div class="col-lg-4 col-md-6 fade-up">
                     <div class="card-noticia card h-100">
-                        <picture>
-                            <source srcset="images/medicos-estrangeiros.webp" type="image/webp">
-                            <img src="images/medicos-estrangeiros.jpg" class="card-img-top" alt="Médicos voluntários em missão" loading="lazy" decoding="async" style="background-color: #ccc;">
-                        </picture>
+                        <div class="news-gallery-main">
+                            <img src="images/missao_2018.jpg" class="card-img-top" alt="Médicos voluntários" loading="lazy" decoding="async">
+                            <span class="gallery-count" onclick="toggleGallery(this)">+3 Fotos</span>
+                        </div>
+                        <div class="news-gallery-thumbnails" style="display: none;">
+                            <img src="images/hmh.jpg" alt="Foto 1" class="thumb">
+                            <img src="images/missao_h.webp" alt="Foto 2" class="thumb">
+                            <img src="images/missao.jpg" alt="Foto 3" class="thumb">
+                        </div>
                         <div class="card-body d-flex flex-column">
-                            <p class="card-text"><small class="text-muted">08 de Julho, 2026</small></p>
+                            <p class="card-text"><small class="text-muted">📅 08 de Julho, 2026</small></p>
                             <h5 class="card-title">Missão de Cirurgiões Internacionais em Cumura</h5>
                             <p class="card-text">Recebemos uma equipe de cirurgiões voluntários que realizarão cirurgias reparadoras durante todo o mês de agosto.</p>
-                            <a href="noticias.php?id=missao-cirurgioes-2026" class="btn-leia-mais mt-auto">Leia Mais →</a>
+                            <button class="btn-leia-mais mt-auto" data-bs-toggle="modal" data-bs-target="#modalNews1">Leia Mais →</button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Notícia 2 -->
                 <div class="col-lg-4 col-md-6 fade-up">
                     <div class="card-noticia card h-100">
-                        <picture>
-                            <source srcset="images/campanha-conscientizacao.webp" type="image/webp">
-                            <img src="images/campanha-conscientizacao.jpg" class="card-img-top" alt="Pessoas participando de uma palestra" loading="lazy" decoding="async" style="background-color: #ccc;">
-                        </picture>
+                        <div class="news-gallery-main">
+                            <img src="images/patio_3.jpeg" class="card-img-top" alt="Campanha conscientização" loading="lazy" decoding="async">
+                            <span class="gallery-count" onclick="toggleGallery(this)">+4 Fotos</span>
+                        </div>
+                        <div class="news-gallery-thumbnails" style="display: none;">
+                            <img src="images/patio_1.jpeg" alt="Campanha 1" class="thumb">
+                            <img src="images/patio_2.jpeg" alt="Campanha 2" class="thumb">
+                            <img src="images/patio_3.jpeg" alt="Campanha 3" class="thumb">
+                            <img src="images/patio_4.jpeg" alt="Campanha 4" class="thumb">
+                        </div>
                         <div class="card-body d-flex flex-column">
-                            <p class="card-text"><small class="text-muted">25 de Junho, 2026</small></p>
+                            <p class="card-text"><small class="text-muted">📅 25 de Junho, 2026</small></p>
                             <h5 class="card-title">Campanha de Conscientização nas Aldeias</h5>
                             <p class="card-text">Nossa equipe móvel visitou 5 aldeias na região de Biombo para educar a população sobre os sinais da hanseníase.</p>
-                            <a href="noticias.php?id=campanha-conscientizacao-jun-2026" class="btn-leia-mais mt-auto">Leia Mais →</a>
+                            <button class="btn-leia-mais mt-auto" data-bs-toggle="modal" data-bs-target="#modalNews2">Leia Mais →</button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Notícia 3 -->
                 <div class="col-lg-4 col-md-6 fade-up">
                     <div class="card-noticia card h-100">
-                        <picture>
-                            <source srcset="images/doacao-medicamentos.webp" type="image/webp">
-                            <img src="images/doacao-medicamentos.jpg" class="card-img-top" alt="Caixas de medicamentos" loading="lazy" decoding="async" style="background-color: #ccc;">
-                        </picture>
+                        <div class="news-gallery-main">
+                            <img src="images/patio_4.jpeg" class="card-img-top" alt="Doação medicamentos" loading="lazy" decoding="async">
+                            <span class="gallery-count" onclick="toggleGallery(this)">+2 Fotos</span>
+                        </div>
+                        <div class="news-gallery-thumbnails" style="display: none;">
+                            <img src="images/patio_1.jpeg" alt="Doação 1" class="thumb">
+                            <img src="images/patio_2.jpeg" alt="Doação 2" class="thumb">
+                        </div>
                         <div class="card-body d-flex flex-column">
-                            <p class="card-text"><small class="text-muted">10 de Junho, 2026</small></p>
+                            <p class="card-text"><small class="text-muted">📅 10 de Junho, 2026</small></p>
                             <h5 class="card-title">Hospital Recebe Doação de Medicamentos Essenciais</h5>
                             <p class="card-text">Uma parceria com a OMS garantiu o fornecimento de PQT para o tratamento de todos os nossos pacientes por mais um ano.</p>
-                            <a href="noticias.php?id=doacao-medicamentos-oms-2026" class="btn-leia-mais mt-auto">Leia Mais →</a>
+                            <button class="btn-leia-mais mt-auto" data-bs-toggle="modal" data-bs-target="#modalNews3">Leia Mais →</button>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="text-center mt-5 fade-up">
-                <a href="noticias.php" class="btn btn-primary btn-lg rounded-pill">Ver Todas as Notícias</a>
             </div>
         </div>
     </section>
 
-    <!-- Contato / Agendamento -->
-    <section id="contato">
-        <div class="container">
-            <h2 class="section-title fade-up">Entre em Contato</h2>
-            <p class="section-subtitle fade-up">Agende uma consulta ou tire suas dúvidas sobre nossos serviços.</p>
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-5 fade-up">
-                    <h3>Informações de Contato</h3>
-                    <div class="info-item"><span></span> <a href="tel:+245960000000" class="text-decoration-none">+245 96 000 0000</a></div>
-                    <div class="info-item"><span>📧</span> <a href="mailto:contato@hansencumura.gw" class="text-decoration-none">contato@hansencumura.gw</a></div>
-                    <div class="info-item"><span>📍</span> <p class="mb-0">Cumura, Região de Biombo, Guiné-Bissau</p></div>
-                    <div class="info-item"><span>🕐</span> <p class="mb-0">Seg a Sex: 8h - 17h</p></div>
-                    <br>
-                    <p><strong>Emergência:</strong> <a href="tel:+245961111111" class="text-decoration-none">+245 96 111 1111</a></p>
-                    <br>
-                    <p><em>"Cuidar com dignidade é a nossa missão."</em></p>
+    <!-- Modals de Notícias -->
+    
+    <!-- Modal Notícia 1 -->
+    <div class="modal fade" id="modalNews1" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Missão de Cirurgiões Internacionais</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="col-lg-7 fade-up">
+                <div class="modal-body">
+                    <p><strong>📅 08 de Julho, 2026</strong></p>
+                    <img src="images/missao.jpg" class="img-fluid mb-3 rounded" alt="Médicos voluntários">
+                    <div class="news-gallery-modal mb-3">
+                        <img src="images/missao.jpg" alt="Foto 1" class="modal-thumb" onclick="expandGallery(this)">
+                        <img src="images/missao_h.webp" alt="Foto 2" class="modal-thumb" onclick="expandGallery(this)">
+                        <img src="images/missao.jpg" alt="Foto 3" class="modal-thumb" onclick="expandGallery(this)">
+                    </div>
+                    <p>Recebemos uma equipe de cirurgiões voluntários que realizarão cirurgias reparadoras durante todo o mês de agosto. Esta é uma oportunidade importante para nossos pacientes terem acesso a procedimentos especializados.</p>
+                    <p>Os cirurgiões trabalharão em conjunto com nossa equipe local, compartilhando conhecimentos e experiências para o melhor atendimento aos pacientes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Notícia 2 -->
+    <div class="modal fade" id="modalNews2" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Campanha de Conscientização nas Aldeias</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>📅 25 de Junho, 2026</strong></p>
+                    <img src="images/missao_2018.jpg" class="img-fluid mb-3 rounded" alt="Campanha conscientização">
+                    <div class="news-gallery-modal mb-3">
+                        <img src="https://via.placeholder.com/100x100?text=Camp+1" alt="Campanha 1" class="modal-thumb" onclick="expandGallery(this)">
+                        <img src="https://via.placeholder.com/100x100?text=Camp+2" alt="Campanha 2" class="modal-thumb" onclick="expandGallery(this)">
+                        <img src="https://via.placeholder.com/100x100?text=Camp+3" alt="Campanha 3" class="modal-thumb" onclick="expandGallery(this)">
+                        <img src="https://via.placeholder.com/100x100?text=Camp+4" alt="Campanha 4" class="modal-thumb" onclick="expandGallery(this)">
+                    </div>
+                    <p>Nossa equipe móvel visitou 5 aldeias na região de Biombo para educar a população sobre os sinais da hanseníase. Mais de 200 pessoas participaram das palestras e receberam materiais informativos.</p>
+                    <p>O objetivo é quebrar tabus e estigmas, além de facilitar o diagnóstico precoce da doença.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Notícia 3 -->
+    <div class="modal fade" id="modalNews3" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Doação de Medicamentos Essenciais</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>📅 10 de Junho, 2026</strong></p>
+                    <img src="images/missao_h.webp" class="img-fluid mb-3 rounded" alt="Doação medicamentos">
+                    <div class="news-gallery-modal mb-3">
+                        <img src="https://via.placeholder.com/100x100?text=Med+1" alt="Medicamento 1" class="modal-thumb" onclick="expandGallery(this)">
+                        <img src="https://via.placeholder.com/100x100?text=Med+2" alt="Medicamento 2" class="modal-thumb" onclick="expandGallery(this)">
+                    </div>
+                    <p>Uma parceria com a OMS garantiu o fornecimento de PQT (Poliquimioterapia) para o tratamento de todos os nossos pacientes por mais um ano.</p>
+                    <p>Esta doação é fundamental para garantir a continuidade do tratamento de forma gratuita e de qualidade aos nossos pacientes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contato / Agendamento -->
+    <section id="contato" class="py-5" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h2 class="text-center mb-4">Entre em Contato</h2>
                     <form id="formAgendamento">
                         <div class="mb-3">
-                            <label for="nome" class="form-label">Nome completo</label>
                             <input type="text" class="form-control" id="nome" placeholder="Seu nome" required>
                         </div>
                         <div class="mb-3">
-                            <label for="telefone" class="form-label">Telefone</label>
-                            <input type="tel" class="form-control" id="telefone" placeholder="+245 96 000 0000" required>
+                            <input type="email" class="form-control" id="email" placeholder="Seu email" required>
                         </div>
                         <div class="mb-3">
-                            <label for="assunto" class="form-label">Assunto</label>
+                            <input type="tel" class="form-control" id="telefone" placeholder="Seu telefone" required>
+                        </div>
+                        <div class="mb-3">
                             <select class="form-select" id="assunto" required>
-                                <option value="">Selecione...</option>
+                                <option value="">Selecione um assunto...</option>
                                 <option>Agendamento de Consulta</option>
-                                <option>Informações sobre Tratamento</option>
-                                <option>Visita Domiciliar</option>
-                                <option>Apoio Psicossocial</option>
-                                <option>Doações e Parcerias</option>
+                                <option>Informações</option>
                                 <option>Outro</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="mensagem" class="form-label">Mensagem (Opcional)</label>
-                            <textarea class="form-control" id="mensagem" rows="4" placeholder="Conte-nos como podemos ajudar..."></textarea>
+                            <textarea class="form-control" id="mensagem" rows="4" placeholder="Sua mensagem..." required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill btn-submit">Enviar Mensagem</button>
+                        <button type="submit" class="btn btn-primary w-100">Enviar</button>
                     </form>
                 </div>
             </div>
