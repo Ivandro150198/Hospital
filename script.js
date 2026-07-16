@@ -3,20 +3,21 @@
    ============================================ */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
         const targetId = this.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+
         const targetElement = document.querySelector(targetId);
+        if (!targetElement) return;
 
-        if (targetElement) {
-            const header = document.querySelector('header');
-            const headerHeight = header ? header.offsetHeight : 0; // Garante que não quebre se o header não existir
-            const targetPosition = targetElement.offsetTop - headerHeight;
+        e.preventDefault();
+        const header = document.querySelector('header');
+        const headerHeight = header ? header.offsetHeight : 0;
+        const targetPosition = targetElement.offsetTop - headerHeight;
 
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
     });
 });
 
@@ -28,34 +29,34 @@ document.getElementById('formAgendamento').addEventListener('submit', async func
 
     const form = this;
     const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
     const telefone = document.getElementById('telefone').value.trim();
     const assunto = document.getElementById('assunto').value;
-    const btn = form.querySelector('.btn-submit');
+    const mensagem = document.getElementById('mensagem').value.trim();
+    const btn = form.querySelector('button[type="submit"]');
     const originalText = btn.textContent;
 
-    // Validação simples
-    if (!nome || !telefone || !assunto) {
+    if (!nome || !telefone || !assunto || !mensagem) {
         alert('Por favor, preencha todos os campos obrigatórios.');
         return;
     }
 
-    // Desabilita o botão e mostra feedback de envio
     btn.textContent = 'Enviando...';
     btn.disabled = true;
 
     try {
-        const response = await fetch('/hmh/enviar-email.php', {
+        const response = await fetch('enviar-email.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ nome, telefone, assunto }),
+            body: JSON.stringify({ nome, email, telefone, assunto, mensagem }),
         });
 
         const result = await response.json();
 
         if (response.ok && result.success) {
-            alert(`Mensagem enviada com sucesso, ${nome}! Entraremos em contato em breve.`);
+            alert(`Mensagem enviada com sucesso, ${nome}! Entraremos em contacto em breve.`);
             form.reset();
         } else {
             throw new Error(result.message || 'Ocorreu um erro ao enviar a mensagem.');
@@ -64,7 +65,6 @@ document.getElementById('formAgendamento').addEventListener('submit', async func
         console.error('Erro no envio do formulário:', error);
         alert('Não foi possível enviar sua mensagem. Por favor, tente novamente mais tarde.');
     } finally {
-        // Restaura o botão
         btn.textContent = originalText;
         btn.disabled = false;
     }
@@ -155,75 +155,25 @@ document.addEventListener('DOMContentLoaded', () => {
     initAboutGallery();
     initHeaderScroll();
     initServicesCircle();
-    initHeroSlider();
+    initAssuntoLinks();
+    initNewsModal();
 });
 
 /* ============================================
-   SLIDER DE IMAGENS PARA O HERO
+   LINKS QUE PRÉ-SELECIONAM O ASSUNTO DO FORMULÁRIO
    ============================================ */
-function initHeroSlider() {
-    // Use o seletor correto para a sua seção de herói. Ex: '.hero-section', '#home', etc.
-    const heroElement = document.querySelector('.hero'); 
-    
-    if (!heroElement) {
-        console.warn('Elemento do herói para o slider não foi encontrado. Verifique o seletor.');
-        return;
-    }
+function initAssuntoLinks() {
+    const assuntoSelect = document.getElementById('assunto');
+    if (!assuntoSelect) return;
 
-    // --- CONFIGURAÇÃO ---
-    // Adicione os caminhos para as suas imagens aqui.
-    const images = [
-        'images/patio_1.jpeg',
-        'images/patio_2.jpeg',
-        'images/patio_3.jpeg',
-        'images/patio_4.jpeg',
-        'images/patio_5.jpeg',
-        'images/patio_6.jpeg',
-        'images/patio_7.jpeg'
-    ];
-    const slideDuration = 5000; // Tempo que cada imagem fica visível (em milissegundos)
-    const transitionDuration = 1000; // Duração da transição de uma imagem para outra (em milissegundos)
-    // --------------------
-
-    if (images.length < 2) {
-        if (images.length === 1) {
-            heroElement.style.backgroundImage = `url('${images[0]}')`;
-        }
-        console.info('Slider do herói desativado: são necessárias pelo menos 2 imagens.');
-        return;
-    }
-
-    let currentImageIndex = 0;
-
-    // Pré-carrega as imagens para evitar "piscar" na primeira transição
-    images.forEach(src => { (new Image()).src = src; });
-
-    // Injeta o CSS necessário para a transição de cross-fade diretamente no <head>
-    const style = document.createElement('style');
-    document.head.appendChild(style);
-    style.sheet.insertRule(
-        `.hero::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -1; opacity: 0; transition: opacity ${transitionDuration / 1000}s ease-in-out; }`, 0);
-    heroElement.style.position = 'relative';
-    heroElement.style.zIndex = '1';
-    heroElement.style.backgroundSize = 'cover';
-    heroElement.style.backgroundPosition = 'center';
-
-    function changeSlide() {
-        const nextImageIndex = (currentImageIndex + 1) % images.length;
-        const nextImageUrl = `url('${images[nextImageIndex]}')`;
-
-        style.sheet.cssRules[0].style.backgroundImage = nextImageUrl;
-        style.sheet.cssRules[0].style.opacity = 1;
-
-        setTimeout(() => {
-            heroElement.style.backgroundImage = nextImageUrl;
-            style.sheet.cssRules[0].style.opacity = 0;
-            currentImageIndex = nextImageIndex;
-        }, transitionDuration);
-    }
-
-    heroElement.style.backgroundImage = `url('${images[currentImageIndex]}')`;
-    setInterval(changeSlide, slideDuration);
+    document.querySelectorAll('[data-assunto]').forEach(link => {
+        link.addEventListener('click', () => {
+            const value = link.getAttribute('data-assunto');
+            if (value && [...assuntoSelect.options].some(opt => opt.value === value)) {
+                assuntoSelect.value = value;
+            }
+        });
+    });
 }
 
 /* ============================================
@@ -438,135 +388,231 @@ function initPreloader() {
 initPreloader();
 
 /* ============================================
-   GALERIA DE NOTÍCIAS
+   MODAL MODERNO DE NOTÍCIAS
    ============================================ */
-function toggleGallery(element) {
-    const gallery = element.parentElement.nextElementSibling;
-    if (gallery && gallery.classList.contains('news-gallery-thumbnails')) {
-        gallery.classList.toggle('show');
-        element.textContent = gallery.style.display === 'none' || gallery.classList.contains('show') ? '✕ Fechar' : '+3 Fotos';
+const NEWS_ARTICLES = [
+    {
+        date: '08 de Julho, 2026',
+        title: 'Missão de Cirurgiões Internacionais em Cumura',
+        images: [
+            'images/missao_2018.jpg',
+            'images/missao_h.webp',
+            'images/missao.jpg',
+            'images/hmh.jpg'
+        ],
+        paragraphs: [
+            'Recebemos uma equipe de cirurgiões voluntários que realizarão cirurgias reparadoras durante todo o mês de agosto. Esta é uma oportunidade importante para os nossos pacientes terem acesso a procedimentos especializados.',
+            'Os cirurgiões trabalharão em conjunto com a nossa equipe local, partilhando conhecimentos e experiências para o melhor atendimento aos pacientes.'
+        ]
+    },
+    {
+        date: '25 de Junho, 2026',
+        title: 'Campanha de Conscientização nas Aldeias',
+        images: [
+            'images/patio_8.jpeg',
+            'images/patio_1.jpeg',
+            'images/patio_6.jpeg',
+            'images/patio_9.jpeg'
+        ],
+        paragraphs: [
+            'A nossa equipe móvel visitou 5 aldeias na região de Biombo para educar a população sobre os sinais da hanseníase. Mais de 200 pessoas participaram das palestras e receberam materiais informativos.',
+            'O objetivo é quebrar tabus e estigmas, além de facilitar o diagnóstico precoce da doença.'
+        ]
+    },
+    {
+        date: '10 de Junho, 2026',
+        title: 'Hospital Recebe Doação de Medicamentos Essenciais',
+        images: [
+            'images/patio_4.jpeg',
+            'images/missao_h.webp',
+            'images/patio_3.jpeg'
+        ],
+        paragraphs: [
+            'Uma parceria com a OMS garantiu o fornecimento de PQT (Poliquimioterapia) para o tratamento de todos os nossos pacientes por mais um ano.',
+            'Esta doação é fundamental para garantir a continuidade do tratamento de forma gratuita e de qualidade.'
+        ]
     }
-}
+];
 
-function expandGallery(img) {
-    const allImages = Array.from(img.closest('.news-gallery-modal').querySelectorAll('.modal-thumb')).map(el => el.src);
-    const currentIndex = allImages.indexOf(img.src);
-    
-    const modal = document.createElement('div');
-    modal.className = 'image-viewer-modal';
-    modal.innerHTML = `
-        <div class="image-viewer-overlay" onclick="if(event.target === this) this.parentElement.remove()"></div>
-        <div class="image-viewer-container">
-            <div class="image-viewer-header">
-                <span class="image-counter"><span class="current">1</span>/<span class="total">${allImages.length}</span></span>
-                <button class="btn-close-modal" onclick="this.closest('.image-viewer-modal').remove()" title="Fechar (ESC)">✕</button>
-            </div>
-            
-            <div class="image-viewer-body">
-                <button class="nav-btn nav-prev" onclick="navGallery(-1)" title="Anterior">‹</button>
-                <div class="image-display-container">
-                    <img class="image-display" src="${img.src}" alt="Imagem">
-                </div>
-                <button class="nav-btn nav-next" onclick="navGallery(1)" title="Próximo">›</button>
-            </div>
-            
-            <div class="image-viewer-footer">
-                <button class="zoom-btn" onclick="zoomImage(0.8)" title="Diminuir zoom">−</button>
-                <button class="zoom-btn" onclick="zoomImage(1)" title="Zoom 100%">⊕</button>
-                <button class="zoom-btn" onclick="zoomImage(1.2)" title="Aumentar zoom">+</button>
-                <div class="thumbnails-nav">
-                    ${allImages.map((src, idx) => `<img src="${src}" class="thumb-nav ${idx === currentIndex ? 'active' : ''}" onclick="goToImage(${idx})" alt="Thumb">`).join('')}
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    
-    // Armazenar estado do modal
-    const state = {
-        currentIndex: currentIndex,
-        images: allImages,
-        scale: 1
-    };
-    modal.galleryState = state;
-    
-    // Atualizar contador
-    updateImageCounter(modal);
-    
-    // Atalhos de teclado
-    const keyHandler = (e) => {
-        if (!document.body.contains(modal)) {
-            window.removeEventListener('keydown', keyHandler);
+function initNewsModal() {
+    const modalEl = document.getElementById('newsModal');
+    if (!modalEl) {
+        console.error('Modal de notícias (#newsModal) não encontrado.');
+        return;
+    }
+
+    const hasBootstrap = typeof bootstrap !== 'undefined' && bootstrap.Modal;
+    const modal = hasBootstrap ? bootstrap.Modal.getOrCreateInstance(modalEl) : null;
+
+    const imageEl = document.getElementById('newsModalImage');
+    const thumbsEl = document.getElementById('newsModalThumbs');
+    const dateEl = document.getElementById('newsModalDate');
+    const titleEl = document.getElementById('newsModalTitle');
+    const textEl = document.getElementById('newsModalText');
+    const counterEl = document.getElementById('newsMediaCounter');
+    const waEl = document.getElementById('newsModalWhatsApp');
+    const prevMediaBtn = document.getElementById('newsMediaPrev');
+    const nextMediaBtn = document.getElementById('newsMediaNext');
+    const prevArticleBtn = document.getElementById('newsPrevArticle');
+    const nextArticleBtn = document.getElementById('newsNextArticle');
+
+    if (!imageEl || !thumbsEl || !dateEl || !titleEl || !textEl) {
+        console.error('Elementos do modal de notícias incompletos.');
+        return;
+    }
+
+    let articleIndex = 0;
+    let imageIndex = 0;
+    let backdropEl = null;
+
+    function showModal() {
+        if (modal) {
+            modal.show();
             return;
         }
-        if (e.key === 'ArrowLeft') navGallery(-1);
-        if (e.key === 'ArrowRight') navGallery(1);
-        if (e.key === 'Escape') modal.remove();
-        if (e.key === '+' || e.key === '=') zoomImage(1.2);
-        if (e.key === '-') zoomImage(0.8);
-    };
-    window.addEventListener('keydown', keyHandler);
-    
-    // Suporte a toque/swipe
+        modalEl.classList.add('show');
+        modalEl.style.display = 'block';
+        modalEl.removeAttribute('aria-hidden');
+        modalEl.setAttribute('aria-modal', 'true');
+        document.body.classList.add('modal-open');
+        backdropEl = document.createElement('div');
+        backdropEl.className = 'modal-backdrop fade show';
+        document.body.appendChild(backdropEl);
+    }
+
+    function hideModal() {
+        if (modal) {
+            modal.hide();
+            return;
+        }
+        modalEl.classList.remove('show');
+        modalEl.style.display = 'none';
+        modalEl.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        if (backdropEl) {
+            backdropEl.remove();
+            backdropEl = null;
+        }
+    }
+
+    function setImage(index) {
+        const article = NEWS_ARTICLES[articleIndex];
+        if (!article) return;
+
+        imageIndex = (index + article.images.length) % article.images.length;
+        imageEl.style.opacity = '0.4';
+        imageEl.src = article.images[imageIndex];
+        imageEl.alt = article.title;
+        if (counterEl) {
+            counterEl.textContent = `${imageIndex + 1} / ${article.images.length}`;
+        }
+
+        thumbsEl.querySelectorAll('.news-modal-thumb').forEach((thumb, i) => {
+            thumb.classList.toggle('active', i === imageIndex);
+        });
+
+        requestAnimationFrame(() => {
+            imageEl.style.opacity = '1';
+        });
+    }
+
+    function renderArticle(index) {
+        const total = NEWS_ARTICLES.length;
+        articleIndex = ((Number(index) % total) + total) % total;
+        const article = NEWS_ARTICLES[articleIndex];
+
+        dateEl.textContent = article.date;
+        titleEl.textContent = article.title;
+        textEl.innerHTML = article.paragraphs.map(p => `<p>${p}</p>`).join('');
+
+        if (waEl) {
+            const shareText = encodeURIComponent(`${article.title} — Hospital de Cumura`);
+            const pageUrl = encodeURIComponent(window.location.href.split('#')[0] + '#noticias');
+            waEl.href = `https://wa.me/?text=${shareText}%20${pageUrl}`;
+        }
+
+        thumbsEl.innerHTML = '';
+        article.images.forEach((src, i) => {
+            const thumb = document.createElement('img');
+            thumb.src = src;
+            thumb.alt = `Foto ${i + 1}`;
+            thumb.className = 'news-modal-thumb';
+            thumb.addEventListener('click', (e) => {
+                e.stopPropagation();
+                setImage(i);
+            });
+            thumbsEl.appendChild(thumb);
+        });
+
+        if (prevArticleBtn) prevArticleBtn.disabled = total < 2;
+        if (nextArticleBtn) nextArticleBtn.disabled = total < 2;
+
+        const multi = article.images.length > 1;
+        if (prevMediaBtn) prevMediaBtn.style.display = multi ? 'inline-flex' : 'none';
+        if (nextMediaBtn) nextMediaBtn.style.display = multi ? 'inline-flex' : 'none';
+
+        setImage(0);
+    }
+
+    function openNews(index) {
+        const parsed = parseInt(index, 10);
+        renderArticle(Number.isNaN(parsed) ? 0 : parsed);
+        showModal();
+    }
+
+    // Delegação: funciona mesmo se os botões forem recriados
+    document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('[data-news]');
+        if (!trigger) return;
+        e.preventDefault();
+        openNews(trigger.getAttribute('data-news'));
+    });
+
+    if (prevMediaBtn) {
+        prevMediaBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            setImage(imageIndex - 1);
+        });
+    }
+    if (nextMediaBtn) {
+        nextMediaBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            setImage(imageIndex + 1);
+        });
+    }
+    if (prevArticleBtn) {
+        prevArticleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            renderArticle(articleIndex - 1);
+        });
+    }
+    if (nextArticleBtn) {
+        nextArticleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            renderArticle(articleIndex + 1);
+        });
+    }
+
+    modalEl.querySelectorAll('[data-bs-dismiss="modal"]').forEach(btn => {
+        btn.addEventListener('click', () => hideModal());
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!modalEl.classList.contains('show')) return;
+        if (e.key === 'ArrowLeft') setImage(imageIndex - 1);
+        if (e.key === 'ArrowRight') setImage(imageIndex + 1);
+        if (e.key === 'Escape' && !hasBootstrap) hideModal();
+    });
+
     let touchStartX = 0;
-    const imageDisplay = modal.querySelector('.image-display');
-    imageDisplay.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
-    imageDisplay.addEventListener('touchend', e => {
-        const touchEndX = e.changedTouches[0].clientX;
-        if (touchStartX - touchEndX > 50) navGallery(1);
-        if (touchEndX - touchStartX > 50) navGallery(-1);
-    });
-}
+    imageEl.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    imageEl.addEventListener('touchend', (e) => {
+        const delta = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(delta) < 40) return;
+        setImage(delta < 0 ? imageIndex + 1 : imageIndex - 1);
+    }, { passive: true });
 
-function navGallery(direction) {
-    const modal = document.querySelector('.image-viewer-modal');
-    if (!modal) return;
-    
-    const state = modal.galleryState;
-    state.currentIndex = (state.currentIndex + direction + state.images.length) % state.images.length;
-    
-    const imageDisplay = modal.querySelector('.image-display');
-    imageDisplay.style.opacity = '0.5';
-    imageDisplay.src = state.images[state.currentIndex];
-    imageDisplay.style.animation = 'none';
-    setTimeout(() => {
-        imageDisplay.style.animation = 'fadeIn 0.3s ease-in-out';
-        imageDisplay.style.opacity = '1';
-    }, 10);
-    
-    // Atualizar thumbnails
-    modal.querySelectorAll('.thumb-nav').forEach((thumb, idx) => {
-        thumb.classList.toggle('active', idx === state.currentIndex);
-    });
-    
-    state.scale = 1;
-    imageDisplay.style.transform = 'scale(1)';
-    
-    updateImageCounter(modal);
-}
-
-function goToImage(index) {
-    const modal = document.querySelector('.image-viewer-modal');
-    if (!modal) return;
-    const state = modal.galleryState;
-    const direction = index - state.currentIndex;
-    navGallery(direction);
-}
-
-function zoomImage(scale) {
-    const modal = document.querySelector('.image-viewer-modal');
-    if (!modal) return;
-    
-    const state = modal.galleryState;
-    state.scale = scale === 1 ? 1 : state.scale * scale;
-    state.scale = Math.max(0.5, Math.min(state.scale, 3));
-    
-    const imageDisplay = modal.querySelector('.image-display');
-    imageDisplay.style.transform = `scale(${state.scale})`;
-}
-
-function updateImageCounter(modal) {
-    const state = modal.galleryState;
-    modal.querySelector('.current').textContent = state.currentIndex + 1;
+    window.openNewsModal = openNews;
 }

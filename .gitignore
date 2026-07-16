@@ -3,6 +3,9 @@
 # com a estrutura, e adicionar o arquivo real ao .gitignore.
 enviar-email.php
 
+# Mensagens gravadas pelo formulário de contacto
+mensagens/
+
 # Pastas de dependências (ex: se usar Node.js no futuro)
 node_modules/
 

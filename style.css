@@ -137,6 +137,15 @@ section {
     text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
+.hero-brand {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+}
+
 /* Animação do texto do slide */
 .carousel-item .carousel-caption > * {
     opacity: 0;
@@ -337,6 +346,151 @@ section {
 }
 
 /* ============================================
+   HANSENÍASE (EDUCAÇÃO)
+   ============================================ */
+.hanseniase-section {
+    background:
+        radial-gradient(ellipse at 10% 0%, rgba(45, 106, 79, 0.08), transparent 55%),
+        linear-gradient(180deg, #f7fbf8 0%, #ffffff 100%);
+}
+
+.hanseniase-heading {
+    color: var(--bs-primary);
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hanseniase-list {
+    padding-left: 1.1rem;
+    margin: 0;
+    color: #555;
+}
+
+.hanseniase-list li {
+    margin-bottom: 0.55rem;
+}
+
+.hanseniase-accordion .accordion-item {
+    border: none;
+    border-bottom: 1px solid rgba(45, 106, 79, 0.15);
+    background: transparent;
+}
+
+.hanseniase-accordion .accordion-button {
+    background: transparent;
+    color: #1b4332;
+    font-weight: 600;
+    box-shadow: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.hanseniase-accordion .accordion-button:not(.collapsed) {
+    background: transparent;
+    color: var(--bs-primary);
+    box-shadow: none;
+}
+
+.hanseniase-accordion .accordion-button::after {
+    margin-right: 0;
+}
+
+.hanseniase-accordion .accordion-button:focus {
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.hanseniase-accordion .accordion-body {
+    padding-left: 0;
+    padding-right: 0;
+    color: #555;
+}
+
+.hanseniase-cta {
+    max-width: 640px;
+    margin-inline: auto;
+    color: #555;
+}
+
+.btn-whatsapp-outline {
+    border: 2px solid #25d366;
+    color: #128c7e;
+    font-weight: 600;
+    background: transparent;
+}
+
+.btn-whatsapp-outline:hover {
+    background: #25d366;
+    border-color: #25d366;
+    color: #fff;
+}
+
+/* ============================================
+   AÇÕES FLUTUANTES (WhatsApp + topo)
+   ============================================ */
+.float-actions {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 98;
+    width: 56px;
+    height: 124px;
+    pointer-events: none;
+}
+
+.whatsapp-float {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #25d366;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    text-decoration: none;
+    pointer-events: auto;
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+    transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.whatsapp-float svg {
+    display: block;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.whatsapp-float:hover {
+    background: #1ebe57;
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 8px 22px rgba(37, 211, 102, 0.5);
+}
+
+.whatsapp-float:focus-visible {
+    outline: 3px solid rgba(45, 106, 79, 0.45);
+    outline-offset: 3px;
+}
+
+.btn-whatsapp-solid {
+    background: #25d366;
+    border-color: #25d366;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-whatsapp-solid:hover {
+    background: #1ebe57;
+    border-color: #1ebe57;
+    color: #fff;
+}
+
+/* ============================================
    DEPOIMENTOS
    ============================================ */
 .depoimentos {
@@ -362,32 +516,200 @@ section {
    NOTÍCIAS
    ============================================ */
 #noticias {
-    background: #f9f9f9;
+    background: #f7faf8;
 }
 
-.card-noticia {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+.news-main {
+    background: #fff;
+    border: 1px solid rgba(45, 106, 79, 0.14);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.card-noticia .card-img-top {
-    height: 200px;
+.news-main:hover,
+.news-item:hover {
+    border-color: rgba(45, 106, 79, 0.4);
+    box-shadow: 0 10px 28px rgba(27, 67, 50, 0.08);
+}
+
+.news-main-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    overflow: hidden;
+    background: #e8eee9;
+}
+
+.news-main-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+}
+
+.news-main:hover .news-main-image img,
+.news-item:hover .news-item-image img {
+    transform: scale(1.03);
+}
+
+.news-main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    min-height: 320px;
+    padding: 2.25rem;
+    background: #fff;
+}
+
+.news-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1rem;
+    margin-bottom: 0.85rem;
+}
+
+.news-tag {
+    color: #fff;
+    background: var(--bs-primary);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    padding: 0.28rem 0.55rem;
+}
+
+.news-meta time {
+    color: #777;
+    font-size: 0.85rem;
+}
+
+.news-main-title {
+    margin: 0 0 0.85rem;
+    color: #1b4332;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.news-main-text {
+    margin: 0 0 1.25rem;
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.65;
 }
 
 .btn-leia-mais {
-    color: var(--bs-primary);
-    text-decoration: none;
-    font-weight: 600;
+    margin-top: auto;
     align-self: flex-start;
+    border: none;
+    background: transparent;
+    color: var(--bs-primary);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+}
+
+.btn-leia-mais::after {
+    content: '→';
+    transition: transform 0.2s ease;
 }
 
 .btn-leia-mais:hover {
-    text-decoration: underline;
+    color: #1b4332;
+}
+
+.btn-leia-mais:hover::after {
+    transform: translateX(4px);
+}
+
+.news-secondary {
+    margin-top: 0.25rem;
+}
+
+.news-item {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid rgba(45, 106, 79, 0.14);
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.news-item-image {
+    width: 100%;
+    height: 210px;
+    overflow: hidden;
+    background: #e8eee9;
+    flex-shrink: 0;
+}
+
+.news-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+}
+
+.news-item-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.5rem;
+}
+
+.news-item-title {
+    margin: 0 0 0.65rem;
+    color: #1b4332;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.news-item-text {
+    margin: 0 0 1rem;
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    flex: 1;
+}
+
+@media (max-width: 991px) {
+    .news-main-image {
+        min-height: 230px;
+        height: 230px;
+    }
+
+    .news-main-content {
+        min-height: 0;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .news-item-image {
+        height: 180px;
+    }
 }
 
 /* ============================================
    CONTATO / FORMULÁRIO
    ============================================ */
+#contato {
+    background-color: #f8f9fa;
+}
+
 .contato-info h3 {
     color: var(--bs-primary);
     margin-bottom: 20px;
@@ -395,16 +717,31 @@ section {
 
 .contato-info .info-item {
     margin-bottom: 15px;
-    color: #555 !important;
+    color: #555;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 15px;
     font-size: 1rem;
 }
 
-.contato-info .info-item a, .contato-info p a {
-    color: #555 !important;
+.contato-info .info-item a,
+.contato-info p a {
+    color: #555;
     text-decoration: none;
+}
+
+.contato-info .info-item a:hover {
+    color: var(--bs-primary);
+}
+
+.contato-nota {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #444;
 }
 
 .form-control:focus, .form-select:focus {
@@ -437,34 +774,48 @@ footer {
     padding: 50px 20px 30px;
 }
 
-.footer-trust {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
+.footer-brand {
+    font-size: 1.35rem;
+    font-weight: 700;
 }
 
-.trust-seal {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    opacity: 0.8;
-    transition: opacity 0.3s;
-}
-
-.trust-seal:hover {
-    opacity: 1;
-}
-
-.trust-seal span {
-    font-size: 2.5rem;
-}
-
-.trust-seal p {
-    font-size: 0.9rem;
+.footer-heading {
+    font-weight: 700;
     margin: 0;
+}
+
+.footer-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+}
+
+.footer-text a,
+.footer-links a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+}
+
+.footer-text a:hover,
+.footer-links a:hover {
+    color: #fff;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.4rem;
+}
+
+.footer-copy {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
 }
 
 /* ============================================
@@ -486,28 +837,30 @@ footer {
    BOTÃO "VOLTAR AO TOPO"
    ============================================ */
 #backToTopBtn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 99;
+    position: absolute;
+    right: 4px;
+    bottom: 68px;
     border: none;
     background-color: var(--bs-primary);
     color: white;
     cursor: pointer;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+    line-height: 1;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px);
-    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background-color 0.25s;
 }
 
 #backToTopBtn.show {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
     transform: translateY(0);
 }
 
@@ -610,384 +963,267 @@ footer {
         gap: 25px;
     }
 
+    .float-actions {
+        right: 16px;
+        bottom: 16px;
+        width: 52px;
+        height: 116px;
+    }
+
     #backToTopBtn {
-        width: 45px;
-        height: 45px;
+        width: 44px;
+        height: 44px;
         font-size: 20px;
-        bottom: 20px;
-        right: 20px;
+        right: 4px;
+        bottom: 64px;
+    }
+
+    .whatsapp-float {
+        width: 52px;
+        height: 52px;
+    }
+
+    .whatsapp-float svg {
+        width: 26px;
+        height: 26px;
     }
 }
 
 /* ============================================
-   ESTILOS DA SEÇÃO DE NOTÍCIAS
+   MODAL MODERNO DE NOTÍCIAS
    ============================================ */
+.news-modal .modal-dialog {
+    max-width: 1080px;
+    margin: 1.25rem auto;
+}
 
-.news-gallery-main {
+.news-modal-content {
     position: relative;
+    border: none;
+    border-radius: 18px;
     overflow: hidden;
-    background-color: #e9ecef;
+    background: #fff;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
 }
 
-.news-gallery-main img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.gallery-count {
+.news-modal-close {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: rgba(45, 106, 79, 0.9);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.gallery-count:hover {
-    background: rgba(45, 106, 79, 1);
-    transform: scale(1.05);
-}
-
-.news-gallery-thumbnails {
-    display: flex;
-    gap: 8px;
-    padding: 10px;
-    background: #f8f9fa;
-    border-top: 1px solid #e9ecef;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.news-gallery-thumbnails.show {
-    display: flex !important;
-}
-
-.thumb {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-}
-
-.thumb:hover {
-    border-color: #2d6a4f;
-    transform: scale(1.05);
-}
-
-.news-gallery-modal {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.modal-thumb {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid #e9ecef;
-}
-
-.modal-thumb:hover {
-    border-color: #2d6a4f;
-    transform: scale(1.08);
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.3);
-}
-
-/* ============================================
-   IMAGE VIEWER MODAL (MELHORADO)
-   ============================================ */
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.image-viewer-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 9999;
-    display: flex;
+    top: 14px;
+    right: 14px;
+    z-index: 5;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 1;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.image-viewer-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.85);
     cursor: pointer;
-    z-index: 1;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.image-viewer-container {
-    position: relative;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+.news-modal-close:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+}
+
+.news-modal-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    min-height: 520px;
+}
+
+.news-modal-media {
+    background: #111;
     display: flex;
     flex-direction: column;
-    width: 90%;
-    height: 90%;
-    max-width: 1200px;
-    max-height: 800px;
-    overflow: hidden;
+    min-height: 100%;
 }
 
-.image-viewer-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background: rgba(0, 0, 0, 0.7);
-    border-bottom: 1px solid #333;
-}
-
-.image-counter {
-    color: white;
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-.btn-close-modal {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-close-modal:hover {
-    color: #ff6b6b;
-    transform: scale(1.2);
-}
-
-.image-viewer-body {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    gap: 20px;
-    padding: 20px;
+.news-modal-stage {
     position: relative;
-}
-
-.image-display-container {
     flex: 1;
+    min-height: 360px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: auto;
-    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-    border-radius: 8px;
-    max-height: 500px;
+    overflow: hidden;
+    background: linear-gradient(160deg, #1a1a1a, #0d0d0d);
 }
 
-.image-display {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    transition: transform 0.3s ease;
-    cursor: grab;
+.news-modal-stage img {
+    width: 100%;
+    height: 100%;
+    max-height: 460px;
+    object-fit: cover;
+    transition: opacity 0.25s ease;
 }
 
-.image-display:active {
-    cursor: grabbing;
-}
-
-.nav-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    font-size: 2rem;
-    width: 50px;
-    height: 50px;
+.news-media-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border: none;
     border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 1;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    backdrop-filter: blur(4px);
+    transition: background-color 0.2s ease;
 }
 
-.nav-btn:hover {
-    background: rgba(45, 106, 79, 0.8);
-    border-color: #2d6a4f;
-    transform: scale(1.1);
+.news-media-nav:hover {
+    background: rgba(45, 106, 79, 0.85);
 }
 
-.nav-btn:active {
-    transform: scale(0.95);
-}
+.news-media-prev { left: 12px; }
+.news-media-next { right: 12px; }
 
-.image-viewer-footer {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px 20px;
-    background: rgba(0, 0, 0, 0.7);
-    border-top: 1px solid #333;
-    overflow-x: auto;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.zoom-btn {
-    background: rgba(45, 106, 79, 0.7);
-    border: 1px solid #2d6a4f;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.news-media-counter {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 0.8rem;
     font-weight: 600;
-    font-size: 0.9rem;
-    min-width: 35px;
+    padding: 6px 10px;
+    border-radius: 999px;
 }
 
-.zoom-btn:hover {
-    background: rgba(45, 106, 79, 1);
-    transform: scale(1.05);
-}
-
-.thumbnails-nav {
+.news-modal-thumbs {
     display: flex;
     gap: 8px;
+    padding: 12px;
     overflow-x: auto;
-    flex: 0 1 auto;
-    padding: 0 10px;
+    background: #161616;
 }
 
-.thumb-nav {
-    width: 50px;
-    height: 50px;
-    min-width: 50px;
+.news-modal-thumb {
+    width: 64px;
+    height: 48px;
     object-fit: cover;
     border-radius: 6px;
     cursor: pointer;
+    opacity: 0.55;
     border: 2px solid transparent;
-    transition: all 0.3s ease;
-    opacity: 0.6;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
 }
 
-.thumb-nav:hover {
+.news-modal-thumb:hover,
+.news-modal-thumb.active {
     opacity: 1;
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: scale(1.05);
+    border-color: #25d366;
 }
 
-.thumb-nav.active {
-    opacity: 1;
-    border-color: #2d6a4f;
-    box-shadow: 0 0 10px rgba(45, 106, 79, 0.6);
+.news-modal-panel {
+    padding: 2.25rem 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Responsivo */
-@media (max-width: 768px) {
-    .image-viewer-container {
-        width: 95%;
-        height: 95%;
-        max-height: 600px;
-    }
-
-    .image-viewer-body {
-        gap: 10px;
-        padding: 10px;
-    }
-
-    .nav-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
-    }
-
-    .image-viewer-footer {
-        flex-direction: column-reverse;
-    }
-
-    .thumbnails-nav {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .thumb-nav {
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
-    }
+.news-modal-date {
+    margin: 0 0 0.6rem;
+    color: var(--bs-primary);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
 }
 
-@media (max-width: 480px) {
-    .image-viewer-container {
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
+.news-modal-title {
+    margin: 0 0 1rem;
+    color: #1b4332;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.news-modal-text {
+    color: #555;
+    line-height: 1.7;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 280px;
+    padding-right: 4px;
+}
+
+.news-modal-text p {
+    margin-bottom: 0.9rem;
+}
+
+.news-modal-text p:last-child {
+    margin-bottom: 0;
+}
+
+.news-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 1.5rem;
+}
+
+.news-modal-pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e8eee9;
+}
+
+.news-pager-btn {
+    border: none;
+    background: transparent;
+    color: var(--bs-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0;
+    cursor: pointer;
+}
+
+.news-pager-btn:hover {
+    color: #1b4332;
+    text-decoration: underline;
+}
+
+.news-pager-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+    text-decoration: none;
+}
+
+@media (max-width: 991px) {
+    .news-modal-layout {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .news-modal-stage {
+        min-height: 240px;
+    }
+
+    .news-modal-stage img {
+        max-height: 280px;
+    }
+
+    .news-modal-panel {
+        padding: 1.5rem 1.25rem 1.25rem;
+    }
+
+    .news-modal-text {
         max-height: none;
-    }
-
-    .image-viewer-body {
-        gap: 5px;
-        padding: 5px;
-    }
-
-    .nav-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 1.2rem;
-    }
-
-    .image-counter {
-        font-size: 0.8rem;
-    }
-
-    .btn-close-modal {
-        font-size: 1.2rem;
-        width: 25px;
-        height: 25px;
-    }
-
-    .zoom-btn {
-        padding: 6px 10px;
-        font-size: 0.8rem;
-        min-width: 30px;
-    }
-
-    .thumb-nav {
-        width: 35px;
-        height: 35px;
-        min-width: 35px;
     }
 }
