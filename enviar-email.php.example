@@ -1,0 +1,48 @@
+<?php
+/**
+ * Copie este ficheiro para enviar-email.php e ajuste $destino.
+ * O ficheiro real está no .gitignore.
+ */
+header('Content-Type: application/json; charset=utf-8');
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['success' => false, 'message' => 'Método não permitido.']);
+    exit;
+}
+
+$destino = 'seu-email@exemplo.com';
+$assuntoPrefixo = '[HMH Cumura]';
+$guardarCopia = true;
+
+$raw = file_get_contents('php://input');
+$data = json_decode($raw, true);
+
+$nome = trim((string)($data['nome'] ?? ''));
+$email = trim((string)($data['email'] ?? ''));
+$telefone = trim((string)($data['telefone'] ?? ''));
+$assunto = trim((string)($data['assunto'] ?? ''));
+$mensagem = trim((string)($data['mensagem'] ?? ''));
+
+if ($nome === '' || $telefone === '' || $assunto === '' || $mensagem === '') {
+    http_response_code(422);
+    echo json_encode(['success' => false, 'message' => 'Preencha todos os campos obrigatórios.']);
+    exit;
+}
+
+$corpo = "Nome: {$nome}\nE-mail: {$email}\nTelefone: {$telefone}\nAssunto: {$assunto}\n\n{$mensagem}\n";
+
+if ($guardarCopia) {
+    $pasta = __DIR__ . '/mensagens';
+    if (!is_dir($pasta)) {
+        mkdir($pasta, 0755, true);
+    }
+    file_put_contents(
+        $pasta . '/' . date('Y-m-d_His') . '.txt',
+        $corpo
+    );
+}
+
+@mail($destino, $assuntoPrefixo . ' ' . $assunto, $corpo, 'Content-type: text/plain; charset=utf-8');
+
+echo json_encode(['success' => true, 'message' => 'Mensagem recebida com sucesso.']);
