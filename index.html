@@ -10,9 +10,12 @@
     <meta property="og:description" content="Cuidado humanizado e excelência médica no tratamento da hanseníase na Guiné-Bissau.">
     <meta property="og:image" content="images/hmh.jpg">
     <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css?v=20260716b">
+    <link rel="stylesheet" href="style.css?v=20260717">
 </head>
 <body>
 
@@ -21,24 +24,39 @@
         <div class="spinner"></div>
     </div>
 
-    <!-- Header -->
-    <header class="fixed-top">
+    <!-- Header institucional -->
+    <header class="site-header fixed-top">
+        <div class="topbar">
+            <div class="container topbar-inner">
+                <p class="topbar-left mb-0">Instituição de referência no tratamento da hanseníase · Biombo, Guiné-Bissau</p>
+                <div class="topbar-right">
+                    <a href="tel:+245955000000">+245 955 000 000</a>
+                    <span class="topbar-sep" aria-hidden="true">|</span>
+                    <a href="mailto:contato@hospitalcumura.org">contato@hospitalcumura.org</a>
+                </div>
+            </div>
+        </div>
         <nav class="navbar navbar-expand-lg" id="mainNavbar">
             <div class="container">
-                <a class="navbar-brand logo" href="#home">HMH <span>Cumura</span></a>
+                <a class="navbar-brand logo" href="#home">
+                    <span class="logo-mark" aria-hidden="true">HMH</span>
+                    <span class="logo-text">
+                        <span class="logo-name">Hospital de Cumura</span>
+                        <span class="logo-sub">Mal de Hansen · Guiné-Bissau</span>
+                    </span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navLinks">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
                         <li class="nav-item"><a class="nav-link" href="#home">Início</a></li>
                         <li class="nav-item"><a class="nav-link" href="#sobre">Hospital</a></li>
                         <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
                         <li class="nav-item"><a class="nav-link" href="#hanseniase">Hanseníase</a></li>
                         <li class="nav-item"><a class="nav-link" href="#noticias">Notícias</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#depoimentos">Depoimentos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
-                        <li class="nav-item ms-lg-3"><a href="#contato" class="btn btn-agendar rounded-pill">Agendar Consulta</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contato">Contacto</a></li>
+                        <li class="nav-item ms-lg-3"><a href="#contato" class="btn btn-agendar">Agendar Consulta</a></li>
                     </ul>
                 </div>
             </div>
@@ -56,34 +74,34 @@
             <div class="carousel-inner">
                 <div class="carousel-item active" style="background-image: url('images/patio_10.jpeg');">
                     <div class="carousel-caption d-flex flex-column justify-content-center h-100">
-                        <p class="hero-brand mb-2">HMH Cumura</p>
-                        <h1 class="display-4">Cuidado Humanizado e Excelência Médica</h1>
-                        <p class="lead">Há décadas cuidando de pessoas com hanseníase com dignidade e tratamento especializado.</p>
+                        <p class="hero-brand">Hospital do Mal de Hansen de Cumura</p>
+                        <h1 class="display-4">Cuidado humanizado e excelência médica</h1>
+                        <p class="lead">Instituição de referência no tratamento da hanseníase na Região de Biombo.</p>
                         <div class="hero-buttons mt-4">
-                            <a href="#contato" class="btn btn-primary btn-lg rounded-pill">Agende sua Consulta</a>
-                            <a href="#sobre" class="btn btn-outline-light btn-lg rounded-pill">Nossa História</a>
+                            <a href="#contato" class="btn btn-primary btn-lg">Agendar consulta</a>
+                            <a href="#sobre" class="btn btn-outline-light btn-lg">Conhecer o hospital</a>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item" style="background-image: url('images/patio_2.jpeg');">
                     <div class="carousel-caption d-flex flex-column justify-content-center h-100">
-                        <p class="hero-brand mb-2">HMH Cumura</p>
-                        <h1 class="display-4">Reabilitação que Transforma Vidas</h1>
-                        <p class="lead">Oferecemos fisioterapia e apoio para a reintegração social dos nossos pacientes.</p>
+                        <p class="hero-brand">Hospital do Mal de Hansen de Cumura</p>
+                        <h1 class="display-4">Reabilitação e reintegração social</h1>
+                        <p class="lead">Fisioterapia, acompanhamento clínico e apoio às famílias e comunidades.</p>
                         <div class="hero-buttons mt-4">
-                            <a href="#servicos" class="btn btn-primary btn-lg rounded-pill">Nossos Serviços</a>
-                            <a href="#depoimentos" class="btn btn-outline-light btn-lg rounded-pill">Histórias Reais</a>
+                            <a href="#servicos" class="btn btn-primary btn-lg">Ver serviços</a>
+                            <a href="#hanseniase" class="btn btn-outline-light btn-lg">Sobre a hanseníase</a>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item" style="background-image: url('images/patio_5.jpeg');">
                     <div class="carousel-caption d-flex flex-column justify-content-center h-100">
-                        <p class="hero-brand mb-2">HMH Cumura</p>
-                        <h1 class="display-4">Junte-se à Nossa Missão</h1>
-                        <p class="lead">Sua doação ajuda a manter o tratamento gratuito e a combater o estigma da hanseníase.</p>
+                        <p class="hero-brand">Hospital do Mal de Hansen de Cumura</p>
+                        <h1 class="display-4">Apoie a missão institucional</h1>
+                        <p class="lead">A sua contribuição ajuda a manter o tratamento gratuito e o combate ao estigma.</p>
                         <div class="hero-buttons mt-4">
-                            <a href="#contato" class="btn btn-primary btn-lg rounded-pill" data-assunto="Doação">Faça uma Doação</a>
-                            <a href="#noticias" class="btn btn-outline-light btn-lg rounded-pill">Últimas Notícias</a>
+                            <a href="#contato" class="btn btn-primary btn-lg" data-assunto="Doação">Fazer uma doação</a>
+                            <a href="#noticias" class="btn btn-outline-light btn-lg">Últimas notícias</a>
                         </div>
                     </div>
                 </div>
@@ -99,16 +117,37 @@
         </div>
     </section>
 
+    <!-- Faixa institucional -->
+    <aside class="institutional-band" aria-label="Missão institucional">
+        <div class="container">
+            <div class="institutional-band-grid">
+                <div>
+                    <p class="band-label">Missão</p>
+                    <p class="band-text mb-0">Prestar cuidados especializados, dignos e gratuitos a pessoas afectadas pela hanseníase.</p>
+                </div>
+                <div>
+                    <p class="band-label">Âmbito</p>
+                    <p class="band-text mb-0">Tratamento clínico, reabilitação física e apoio psicossocial em Cumura e na região.</p>
+                </div>
+                <div>
+                    <p class="band-label">Compromisso</p>
+                    <p class="band-text mb-0">Combater o estigma, promover o diagnóstico precoce e a reintegração na comunidade.</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
     <!-- Sobre -->
     <section id="sobre">
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6 fade-up">
-                    <h2>Nossa História</h2>
+                    <p class="section-eyebrow">A instituição</p>
+                    <h2 class="section-heading-left">Nossa História</h2>
                     <p>O <strong>Hospital do Mal de Hansen de Cumura</strong> é uma instituição de referência no tratamento da hanseníase (mal de Hansen) na região de Biombo, Guiné-Bissau. Fundado durante o período colonial, o hospital tornou-se um símbolo de acolhimento e cuidado para centenas de pacientes ao longo das décadas.</p>
                     <p>Localizado na zona rural de Cumura, a cerca de 30 km de Bissau, o hospital oferece tratamento especializado, reabilitação física e apoio psicossocial para pessoas afetadas pela hanseníase, muitas das quais enfrentam estigma e exclusão social.</p>
                     <p>Contamos com uma equipe multidisciplinar dedicada, incluindo médicos, enfermeiros, fisioterapeutas e assistentes sociais, todos comprometidos com a missão de devolver dignidade e qualidade de vida aos nossos pacientes.</p>
-                    <p><strong>Cumura, Região de Biombo, Guiné-Bissau</strong></p>
+                    <p class="institution-place"><strong>Cumura, Região de Biombo, Guiné-Bissau</strong></p>
                 </div>
                 <div class="col-lg-6 fade-up">
                     <div class="galeria-main-image">
@@ -135,7 +174,7 @@
                 <div class="service-details-content">
                     <h3 id="service-circle-title"></h3>
                     <p id="service-circle-details"></p>
-                    <a href="#contato" class="btn btn-primary rounded-pill mt-3">Saber Mais</a>
+                    <a href="#contato" class="btn btn-primary mt-3">Saber Mais</a>
                 </div>
                 <div class="service-wheel-wrapper">
                     <div class="service-wheel">
@@ -226,8 +265,8 @@
 
             <div class="hanseniase-cta text-center fade-up mt-5">
                 <p class="mb-3">Tem manchas ou sintomas? Procure avaliação médica o mais cedo possível.</p>
-                <a href="#contato" class="btn btn-primary rounded-pill me-2 mb-2">Agendar consulta</a>
-                <a href="https://wa.me/245955000000?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20hanseniase%20no%20Hospital%20de%20Cumura." class="btn btn-whatsapp-outline rounded-pill mb-2" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+                <a href="#contato" class="btn btn-primary me-2 mb-2">Agendar consulta</a>
+                <a href="https://wa.me/245955000000?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20hanseniase%20no%20Hospital%20de%20Cumura." class="btn btn-whatsapp-outline mb-2" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
             </div>
         </div>
     </section>
@@ -360,8 +399,8 @@
                         <div class="news-modal-text" id="newsModalText"></div>
 
                         <div class="news-modal-actions">
-                            <a id="newsModalWhatsApp" class="btn btn-whatsapp-solid rounded-pill" href="#" target="_blank" rel="noopener noreferrer">Partilhar no WhatsApp</a>
-                            <a href="#contato" class="btn btn-outline-primary rounded-pill" data-bs-dismiss="modal">Contactar hospital</a>
+                            <a id="newsModalWhatsApp" class="btn btn-whatsapp-solid" href="#" target="_blank" rel="noopener noreferrer">Partilhar no WhatsApp</a>
+                            <a href="#contato" class="btn btn-outline-primary" data-bs-dismiss="modal">Contactar hospital</a>
                         </div>
 
                         <div class="news-modal-pager">
@@ -399,8 +438,8 @@
                             <span aria-hidden="true">🕒</span>
                             <p class="mb-0">Segunda a Sexta · 08h00 – 16h00</p>
                         </div>
-                        <a class="btn btn-outline-primary rounded-pill mt-3" href="https://www.openstreetmap.org/search?query=Cumura%20Guinea-Bissau" target="_blank" rel="noopener noreferrer">Ver no mapa</a>
-                        <p class="contato-nota mt-3">Substitua o telefone e o e-mail pelos contactos oficiais do hospital.</p>
+                        <a class="btn btn-outline-primary mt-3" href="https://www.openstreetmap.org/search?query=Cumura%20Guinea-Bissau" target="_blank" rel="noopener noreferrer">Ver no mapa</a>
+                        <p class="contato-nota mt-3">Actualize o telefone e o e-mail com os contactos oficiais do hospital.</p>
                     </div>
                 </div>
                 <div class="col-lg-7 fade-up">
@@ -432,7 +471,7 @@
                             <label for="mensagem" class="form-label">Mensagem</label>
                             <textarea class="form-control" id="mensagem" name="mensagem" rows="4" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-submit w-100 rounded-pill">Enviar mensagem</button>
+                        <button type="submit" class="btn btn-primary btn-submit w-100">Enviar mensagem</button>
                     </form>
                 </div>
             </div>
@@ -440,31 +479,39 @@
     </section>
 
     <!-- Footer -->
-    <footer class="text-white">
+    <footer class="site-footer text-white">
         <div class="container">
-            <div class="row g-4 footer-grid text-start text-md-start">
-                <div class="col-md-4">
-                    <p class="footer-brand mb-2">HMH Cumura</p>
-                    <p class="footer-text mb-0">Hospital do Mal de Hansen de Cumura — tratamento, reabilitação e dignidade na Região de Biombo.</p>
+            <div class="row g-4 footer-grid">
+                <div class="col-lg-5">
+                    <div class="footer-brand-block">
+                        <span class="footer-mark" aria-hidden="true">HMH</span>
+                        <div>
+                            <p class="footer-brand mb-1">Hospital do Mal de Hansen de Cumura</p>
+                            <p class="footer-text mb-0">Instituição de saúde dedicada ao tratamento, reabilitação e dignidade das pessoas afectadas pela hanseníase na Região de Biombo, Guiné-Bissau.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <p class="footer-heading mb-2">Contactos</p>
+                <div class="col-md-3 col-lg-3">
+                    <p class="footer-heading">Contactos oficiais</p>
                     <p class="footer-text mb-1">Cumura, Biombo, Guiné-Bissau</p>
                     <p class="footer-text mb-1"><a href="tel:+245955000000">+245 955 000 000</a></p>
                     <p class="footer-text mb-0"><a href="mailto:contato@hospitalcumura.org">contato@hospitalcumura.org</a></p>
                 </div>
-                <div class="col-md-4">
-                    <p class="footer-heading mb-2">Navegação</p>
+                <div class="col-md-4 col-lg-4">
+                    <p class="footer-heading">Navegação</p>
                     <ul class="footer-links">
-                        <li><a href="#sobre">Hospital</a></li>
-                        <li><a href="#servicos">Serviços</a></li>
-                        <li><a href="#hanseniase">Hanseníase</a></li>
-                        <li><a href="#noticias">Notícias</a></li>
-                        <li><a href="#contato">Contacto / Doação</a></li>
+                        <li><a href="#sobre">O Hospital</a></li>
+                        <li><a href="#servicos">Serviços clínicos</a></li>
+                        <li><a href="#hanseniase">Informação sobre hanseníase</a></li>
+                        <li><a href="#noticias">Notícias institucionais</a></li>
+                        <li><a href="#contato">Contacto e doações</a></li>
                     </ul>
                 </div>
             </div>
-            <p class="footer-copy text-center mb-0">&copy; 2026 Hospital do Mal de Hansen de Cumura. Todos os direitos reservados.</p>
+            <div class="footer-bottom">
+                <p class="footer-copy mb-0">&copy; 2026 Hospital do Mal de Hansen de Cumura. Todos os direitos reservados.</p>
+                <p class="footer-copy mb-0">Cumura · Região de Biombo · Guiné-Bissau</p>
+            </div>
         </div>
     </footer>
 
@@ -498,8 +545,8 @@
           <div class="modal-body">
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Fechar</button>
-            <a href="#contato" class="btn btn-primary rounded-pill" id="modalAgendarBtn">Agendar Consulta</a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <a href="#contato" class="btn btn-primary" id="modalAgendarBtn">Agendar Consulta</a>
           </div>
         </div>
       </div>
@@ -507,6 +554,6 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="script.js?v=20260716b"></script>
+    <script src="script.js?v=20260717"></script>
 </body>
 </html>
