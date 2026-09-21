@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hospitaldecumura.com/sitemap.xml
+
+Disallow: /mensagens/
+Disallow: /enviar-email.php
+Disallow: /admin/
+Disallow: /config/
+Disallow: /data/
+Disallow: /includes/

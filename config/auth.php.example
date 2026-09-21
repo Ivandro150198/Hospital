@@ -1,0 +1,9 @@
+<?php
+/**
+ * Exemplo — copie para auth.php e altere a password.
+ * php -r "echo password_hash('sua-password', PASSWORD_DEFAULT);"
+ */
+return [
+    'username' => 'admin',
+    'password_hash' => '$2y$10$gGYpb1GN1TClNDvzuitCyuIgmIg.vlJJDGCWzZj4HPC6I/1ZKp7Na',
+];

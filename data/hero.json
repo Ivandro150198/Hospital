@@ -1,0 +1,45 @@
+{
+    "brand": "Hospital do Mal de Hansen de Cumura",
+    "slides": [
+        {
+            "image": "images/patio_10.jpeg",
+            "title": "Cuidado humanizado e excelência médica",
+            "text": "Instituição de referência no tratamento da hanseníase na Região de Biombo.",
+            "btn1_label": "Agendar consulta",
+            "btn1_href": "#contato",
+            "btn2_label": "Conhecer o hospital",
+            "btn2_href": "#sobre",
+            "btn1_assunto": ""
+        },
+        {
+            "image": "images/patio_2.jpeg",
+            "title": "Reabilitação e reintegração social",
+            "text": "Fisioterapia, acompanhamento clínico e apoio às famílias e comunidades.",
+            "btn1_label": "Ver serviços",
+            "btn1_href": "#servicos",
+            "btn2_label": "Sobre a hanseníase",
+            "btn2_href": "#hanseniase",
+            "btn1_assunto": ""
+        },
+        {
+            "image": "images/patio_5.jpeg",
+            "title": "Apoie a missão institucional",
+            "text": "A sua contribuição ajuda a manter o tratamento gratuito e o combate ao estigma.",
+            "btn1_label": "Fazer uma doação",
+            "btn1_href": "#contato",
+            "btn2_label": "Últimas notícias",
+            "btn2_href": "#noticias",
+            "btn1_assunto": "Doação"
+        },
+        {
+            "image": "images/axon-dev-20260921151636.jpg",
+            "title": "AXON DEV",
+            "text": "Nosso parceiro em desenvolvimento digital e informatização institucional",
+            "btn1_label": "",
+            "btn1_href": "#contato",
+            "btn2_label": "",
+            "btn2_href": "#sobre",
+            "btn1_assunto": ""
+        }
+    ]
+}

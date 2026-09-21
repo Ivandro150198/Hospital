@@ -1,0 +1,189 @@
+[
+    {
+        "icon": "🩺",
+        "title": "Tratamento Clínico",
+        "details": "Diagnóstico precoce, poliquimioterapia (PQT) e acompanhamento médico contínuo para todos os estágios da hanseníase.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "🔬",
+        "title": "Laboratório de Análise Clínica",
+        "details": "Exames laboratoriais completos, testes diagnósticos para hanseníase e demais análises clínicas necessárias.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "🩹",
+        "title": "Dermatologia",
+        "details": "Avaliação e tratamento de manifestações dermatológicas, incluindo lesões de pele e dermatites.",
+        "days": [
+            "tue",
+            "thu"
+        ],
+        "daily_limit": 15
+    },
+    {
+        "icon": "👁️",
+        "title": "Oftalmologia",
+        "details": "Avaliação oftalmológica, tratamento de complicações oftalmológicas e prevenção da cegueira.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "🫁",
+        "title": "Tuberculose (TB)",
+        "details": "Diagnóstico e tratamento especializado de tuberculose, com acompanhamento multidisciplinar.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "👶",
+        "title": "Maternidade",
+        "details": "Acompanhamento pré-natal, parto seguro e puerpério com protocolos de segurança para gestantes com hanseníase.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat",
+            "sun"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "🏥",
+        "title": "Radiologia",
+        "details": "Serviços de diagnóstico por imagem: raios-X, ultrassonografia e demais exames radiológicos.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "⚕️",
+        "title": "Medicina Interna",
+        "details": "Atendimento clínico geral e manejo de complicações sistêmicas associadas às doenças.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "🔪",
+        "title": "Cirurgia",
+        "details": "Cirurgias reparadoras, procedimentos cirúrgicos e intervenções de urgência quando necessário.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "🚨",
+        "title": "UCI (Unidade de Cuidados Intensivos)",
+        "details": "Cuidados intensivos para pacientes críticos com monitoramento contínuo e suporte avançado.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "🦿",
+        "title": "Reabilitação Física",
+        "details": "Fisioterapia, órteses, próteses e cirurgias reparadoras para prevenir e tratar incapacidades físicas.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "🧠",
+        "title": "Apoio Psicossocial",
+        "details": "Acompanhamento psicológico, grupos de apoio e reinserção social para pacientes e familiares.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "📋",
+        "title": "Educação em Saúde",
+        "details": "Orientação sobre autocuidado, prevenção de incapacidades e combate ao estigma da hanseníase na comunidade.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+        ],
+        "daily_limit": 0
+    },
+    {
+        "icon": "🚑",
+        "title": "Visitas Domiciliares",
+        "details": "Equipe móvel que leva atendimento a pacientes com dificuldade de locomoção nas aldeias ao redor de Cumura.",
+        "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+        ],
+        "daily_limit": 0
+    }
+]

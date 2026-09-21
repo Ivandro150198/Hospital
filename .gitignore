@@ -2,6 +2,7 @@
 # É uma boa prática criar um arquivo de exemplo (ex: enviar-email.php.example)
 # com a estrutura, e adicionar o arquivo real ao .gitignore.
 enviar-email.php
+config/auth.php
 
 # Mensagens gravadas pelo formulário de contacto
 mensagens/

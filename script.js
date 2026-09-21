@@ -32,12 +32,36 @@ document.getElementById('formAgendamento').addEventListener('submit', async func
     const email = document.getElementById('email').value.trim();
     const telefone = document.getElementById('telefone').value.trim();
     const assunto = document.getElementById('assunto').value;
+    const servicoEl = document.getElementById('servico');
+    const servico = servicoEl ? servicoEl.value.trim() : '';
+    const diaEl = document.getElementById('dia');
+    const dia = diaEl ? diaEl.value.trim() : '';
     const mensagem = document.getElementById('mensagem').value.trim();
+    const website = document.getElementById('website') ? document.getElementById('website').value.trim() : '';
+    const privacidade = document.getElementById('privacidade') ? document.getElementById('privacidade').checked : false;
     const btn = form.querySelector('button[type="submit"]');
     const originalText = btn.textContent;
 
     if (!nome || !telefone || !assunto || !mensagem) {
         alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+    }
+
+    if (assunto === 'Agendamento de Consulta' && !servico) {
+        alert('Por favor, seleccione o serviço pretendido para a consulta.');
+        if (servicoEl) servicoEl.focus();
+        return;
+    }
+
+    if (assunto === 'Agendamento de Consulta' && !dia) {
+        alert('Por favor, seleccione no calendário o dia pretendido para a consulta.');
+        const cal = document.getElementById('bookingCalendar');
+        if (cal) cal.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    }
+
+    if (!privacidade) {
+        alert('É necessário aceitar a política de privacidade para enviar a mensagem.');
         return;
     }
 
@@ -50,7 +74,7 @@ document.getElementById('formAgendamento').addEventListener('submit', async func
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ nome, email, telefone, assunto, mensagem }),
+            body: JSON.stringify({ nome, email, telefone, assunto, servico, dia, mensagem, website, privacidade }),
         });
 
         const result = await response.json();
@@ -58,12 +82,14 @@ document.getElementById('formAgendamento').addEventListener('submit', async func
         if (response.ok && result.success) {
             alert(`Mensagem enviada com sucesso, ${nome}! Entraremos em contacto em breve.`);
             form.reset();
+            const assuntoSelect = document.getElementById('assunto');
+            if (assuntoSelect) assuntoSelect.dispatchEvent(new Event('change'));
         } else {
             throw new Error(result.message || 'Ocorreu um erro ao enviar a mensagem.');
         }
     } catch (error) {
         console.error('Erro no envio do formulário:', error);
-        alert('Não foi possível enviar sua mensagem. Por favor, tente novamente mais tarde.');
+        alert(error.message || 'Não foi possível enviar sua mensagem. Por favor, tente novamente mais tarde.');
     } finally {
         btn.textContent = originalText;
         btn.disabled = false;
@@ -156,14 +182,295 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeaderScroll();
     initServicesCircle();
     initAssuntoLinks();
+    initServicoField();
     initNewsModal();
 });
+
+/* ============================================
+   CAMPO DE SERVIÇO + CALENDÁRIO NO AGENDAMENTO
+   ============================================ */
+function initServicoField() {
+    const assuntoSelect = document.getElementById('assunto');
+    const wrap = document.getElementById('servicoFieldWrap');
+    const servicoSelect = document.getElementById('servico');
+    const diaWrap = document.getElementById('diaFieldWrap');
+    const diaInput = document.getElementById('dia');
+    const calGrid = document.getElementById('calGrid');
+    const calMonthTitle = document.getElementById('calMonthTitle');
+    const calHint = document.getElementById('calHint');
+    const calSelected = document.getElementById('calSelected');
+    const calPrev = document.getElementById('calPrev');
+    const calNext = document.getElementById('calNext');
+    if (!assuntoSelect || !wrap || !servicoSelect || !diaWrap || !diaInput || !calGrid) return;
+
+    const services = Array.isArray(window.SITE_SERVICES) ? window.SITE_SERVICES : [];
+    const dayKeyToJs = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+    const monthNames = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
+    const weekdayNames = [
+        'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira',
+        'Quinta-feira', 'Sexta-feira', 'Sábado'
+    ];
+
+    let viewYear;
+    let viewMonth;
+    let allowedJsDays = [];
+    let currentService = null;
+    let occupancy = {};
+    let fetchToken = 0;
+
+    function startOfToday() {
+        const d = new Date();
+        d.setHours(0, 0, 0, 0);
+        return d;
+    }
+
+    function pad(n) {
+        return String(n).padStart(2, '0');
+    }
+
+    function toIso(date) {
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+    }
+
+    function formatSelected(date) {
+        return `${weekdayNames[date.getDay()]}, ${pad(date.getDate())} de ${monthNames[date.getMonth()]} de ${date.getFullYear()}`;
+    }
+
+    function clearSelection() {
+        diaInput.value = '';
+        if (calSelected) {
+            calSelected.hidden = true;
+            calSelected.textContent = '';
+        }
+    }
+
+    function remainingFor(iso) {
+        if (occupancy[iso]) {
+            if (occupancy[iso].unlimited || occupancy[iso].remaining === null) {
+                return null;
+            }
+            if (typeof occupancy[iso].remaining === 'number') {
+                return occupancy[iso].remaining;
+            }
+        }
+        if (!currentService) return 0;
+        const limit = Number(currentService.daily_limit);
+        if (!limit) return null;
+        return limit;
+    }
+
+    function isUnlimited() {
+        if (!currentService) return false;
+        return !Number(currentService.daily_limit);
+    }
+
+    async function loadOccupancy() {
+        if (!currentService || !currentService.title) {
+            occupancy = {};
+            return;
+        }
+        if (isUnlimited()) {
+            occupancy = {};
+            renderCalendar();
+            return;
+        }
+        const token = ++fetchToken;
+        try {
+            const url = `disponibilidade.php?servico=${encodeURIComponent(currentService.title)}&year=${viewYear}&month=${viewMonth + 1}`;
+            const res = await fetch(url, { headers: { Accept: 'application/json' } });
+            const data = await res.json();
+            if (token !== fetchToken) return;
+            occupancy = (data && data.success && data.days) ? data.days : {};
+        } catch (_) {
+            if (token !== fetchToken) return;
+            occupancy = {};
+        }
+        renderCalendar();
+    }
+
+    function setAllowedDaysFromService(title) {
+        currentService = services.find((s) => s.title === title) || null;
+        const keys = currentService && Array.isArray(currentService.days) ? currentService.days : [];
+        allowedJsDays = keys
+            .map((k) => dayKeyToJs[k])
+            .filter((n) => typeof n === 'number');
+
+        const now = startOfToday();
+        viewYear = now.getFullYear();
+        viewMonth = now.getMonth();
+        clearSelection();
+        occupancy = {};
+
+        if (!title) {
+            if (calHint) calHint.textContent = 'Seleccione primeiro o serviço para ver os dias disponíveis.';
+            renderCalendar();
+            return;
+        }
+        if (!allowedJsDays.length) {
+            if (calHint) calHint.textContent = 'Este serviço não tem dias disponíveis.';
+            renderCalendar();
+            return;
+        }
+        const limit = Number(currentService.daily_limit) || 0;
+        const labels = currentService.day_labels || [];
+        if (calHint) {
+            const daysPart = labels.length ? `Dias: ${labels.join(', ')}. ` : '';
+            const limitPart = limit === 0
+                ? 'Sem limite diário de atendimentos.'
+                : `Limite: ${limit} atendimentos/dia.`;
+            calHint.textContent = `${daysPart}${limitPart} Clique numa data disponível.`;
+        }
+        renderCalendar();
+        loadOccupancy();
+    }
+
+    function renderCalendar() {
+        calGrid.innerHTML = '';
+        if (calMonthTitle) {
+            calMonthTitle.textContent = `${monthNames[viewMonth]} ${viewYear}`;
+        }
+
+        const first = new Date(viewYear, viewMonth, 1);
+        const mondayIndex = (first.getDay() + 6) % 7;
+        const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+        const totalCells = Math.ceil((mondayIndex + daysInMonth) / 7) * 7;
+
+        for (let cell = 0; cell < totalCells; cell++) {
+            const dayNum = cell - mondayIndex + 1;
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'cal-day';
+
+            if (dayNum < 1 || dayNum > daysInMonth) {
+                btn.classList.add('is-empty');
+                btn.disabled = true;
+                btn.textContent = '';
+                calGrid.appendChild(btn);
+                continue;
+            }
+
+            const date = new Date(viewYear, viewMonth, dayNum);
+            date.setHours(0, 0, 0, 0);
+            const iso = toIso(date);
+            const isPast = date < startOfToday();
+            const isAllowed = allowedJsDays.includes(date.getDay());
+            const remaining = remainingFor(iso);
+            const unlimited = remaining === null;
+            const isFull = isAllowed && !isPast && !unlimited && remaining <= 0;
+            const isSelected = diaInput.value === iso;
+
+            btn.textContent = String(dayNum);
+            btn.dataset.date = iso;
+
+            if (isPast || !isAllowed || !allowedJsDays.length || isFull) {
+                btn.disabled = true;
+                btn.classList.add('is-disabled');
+                if (isFull) {
+                    btn.classList.add('is-full');
+                    btn.title = 'Lotado — limite diário atingido';
+                }
+            } else {
+                btn.classList.add('is-available');
+                if (unlimited) {
+                    btn.title = 'Disponível';
+                } else {
+                    btn.title = remaining === 1
+                        ? '1 vaga restante'
+                        : `${remaining} vagas restantes`;
+                }
+                btn.addEventListener('click', () => {
+                    diaInput.value = iso;
+                    calGrid.querySelectorAll('.cal-day.is-selected').forEach((el) => el.classList.remove('is-selected'));
+                    btn.classList.add('is-selected');
+                    if (calSelected) {
+                        calSelected.hidden = false;
+                        const vagas = remainingFor(iso);
+                        if (vagas === null) {
+                            calSelected.textContent = `Seleccionado: ${formatSelected(date)}`;
+                        } else {
+                            calSelected.textContent = `Seleccionado: ${formatSelected(date)} (${vagas} vaga${vagas === 1 ? '' : 's'})`;
+                        }
+                    }
+                });
+            }
+
+            if (date.getTime() === startOfToday().getTime()) {
+                btn.classList.add('is-today');
+            }
+            if (isSelected) {
+                btn.classList.add('is-selected');
+            }
+
+            calGrid.appendChild(btn);
+        }
+    }
+
+    function syncVisibility() {
+        const isBooking = assuntoSelect.value === 'Agendamento de Consulta';
+        wrap.hidden = !isBooking;
+        servicoSelect.required = isBooking;
+        diaWrap.hidden = !isBooking;
+        diaInput.required = isBooking;
+
+        if (!isBooking) {
+            servicoSelect.value = '';
+            setAllowedDaysFromService('');
+            return;
+        }
+        setAllowedDaysFromService(servicoSelect.value);
+    }
+
+    if (calPrev) {
+        calPrev.addEventListener('click', () => {
+            viewMonth -= 1;
+            if (viewMonth < 0) {
+                viewMonth = 11;
+                viewYear -= 1;
+            }
+            if (diaInput.value) {
+                const selected = new Date(diaInput.value + 'T00:00:00');
+                if (selected.getFullYear() !== viewYear || selected.getMonth() !== viewMonth) {
+                    clearSelection();
+                }
+            }
+            renderCalendar();
+            loadOccupancy();
+        });
+    }
+    if (calNext) {
+        calNext.addEventListener('click', () => {
+            viewMonth += 1;
+            if (viewMonth > 11) {
+                viewMonth = 0;
+                viewYear += 1;
+            }
+            if (diaInput.value) {
+                const selected = new Date(diaInput.value + 'T00:00:00');
+                if (selected.getFullYear() !== viewYear || selected.getMonth() !== viewMonth) {
+                    clearSelection();
+                }
+            }
+            renderCalendar();
+            loadOccupancy();
+        });
+    }
+
+    servicoSelect.addEventListener('change', () => {
+        setAllowedDaysFromService(servicoSelect.value);
+    });
+    assuntoSelect.addEventListener('change', syncVisibility);
+    syncVisibility();
+}
 
 /* ============================================
    LINKS QUE PRÉ-SELECIONAM O ASSUNTO DO FORMULÁRIO
    ============================================ */
 function initAssuntoLinks() {
     const assuntoSelect = document.getElementById('assunto');
+    const servicoSelect = document.getElementById('servico');
     if (!assuntoSelect) return;
 
     document.querySelectorAll('[data-assunto]').forEach(link => {
@@ -171,6 +478,12 @@ function initAssuntoLinks() {
             const value = link.getAttribute('data-assunto');
             if (value && [...assuntoSelect.options].some(opt => opt.value === value)) {
                 assuntoSelect.value = value;
+                assuntoSelect.dispatchEvent(new Event('change'));
+            }
+            const servico = link.getAttribute('data-servico');
+            if (servico && servicoSelect && [...servicoSelect.options].some(opt => opt.value === servico)) {
+                servicoSelect.value = servico;
+                servicoSelect.dispatchEvent(new Event('change'));
             }
         });
     });
@@ -188,96 +501,33 @@ function initServicesCircle() {
     const detailsEl = document.getElementById('service-circle-details');
     const contentBox = container.querySelector('.service-details-content');
 
-    const services = [
-        {
-            icon: '🩺',
-            title: 'Tratamento Clínico',
-            details: 'Diagnóstico precoce, poliquimioterapia (PQT) e acompanhamento médico contínuo para todos os estágios da hanseníase.'
-        },
-        {
-            icon: '🔬',
-            title: 'Laboratório de Análise Clínica',
-            details: 'Exames laboratoriais completos, testes diagnósticos para hanseníase e demais análises clínicas necessárias.'
-        },
-        {
-            icon: '🩹',
-            title: 'Dermatologia',
-            details: 'Avaliação e tratamento de manifestações dermatológicas, incluindo lesões de pele e dermatites.'
-        },
-        {
-            icon: '👁️',
-            title: 'Oftalmologia',
-            details: 'Avaliação oftalmológica, tratamento de complicações oftalmológicas e prevenção da cegueira.'
-        },
-        {
-            icon: '🫁',
-            title: 'Tuberculose (TB)',
-            details: 'Diagnóstico e tratamento especializado de tuberculose, com acompanhamento multidisciplinar.'
-        },
-        {
-            icon: '👶',
-            title: 'Maternidade',
-            details: 'Acompanhamento pré-natal, parto seguro e puerpério com protocolos de segurança para gestantes com hanseníase.'
-        },
-        {
-            icon: '🏥',
-            title: 'Radiologia',
-            details: 'Serviços de diagnóstico por imagem: raios-X, ultrassonografia e demais exames radiológicos.'
-        },
-        {
-            icon: '⚕️',
-            title: 'Medicina Interna',
-            details: 'Atendimento clínico geral e manejo de complicações sistêmicas associadas às doenças.'
-        },
-        {
-            icon: '🔪',
-            title: 'Cirurgia',
-            details: 'Cirurgias reparadoras, procedimentos cirúrgicos e intervenções de urgência quando necessário.'
-        },
-        {
-            icon: '🚨',
-            title: 'UCI (Unidade de Cuidados Intensivos)',
-            details: 'Cuidados intensivos para pacientes críticos com monitoramento contínuo e suporte avançado.'
-        },
-        {
-            icon: '🦿',
-            title: 'Reabilitação Física',
-            details: 'Fisioterapia, órteses, próteses e cirurgias reparadoras para prevenir e tratar incapacidades físicas.'
-        },
-        {
-            icon: '🧠',
-            title: 'Apoio Psicossocial',
-            details: 'Acompanhamento psicológico, grupos de apoio e reinserção social para pacientes e familiares.'
-        },
-        {
-            icon: '📋',
-            title: 'Educação em Saúde',
-            details: 'Orientação sobre autocuidado, prevenção de incapacidades e combate ao estigma da hanseníase na comunidade.'
-        },
-        {
-            icon: '🚑',
-            title: 'Visitas Domiciliares',
-            details: 'Equipe móvel que leva atendimento a pacientes com dificuldade de locomoção nas aldeias ao redor de Cumura.'
-        }
-    ];
+    const services = Array.isArray(window.SITE_SERVICES) && window.SITE_SERVICES.length
+        ? window.SITE_SERVICES
+        : [
+            {
+                icon: '🩺',
+                title: 'Tratamento Clínico',
+                details: 'Diagnóstico precoce, poliquimioterapia (PQT) e acompanhamento médico contínuo para todos os estágios da hanseníase.'
+            }
+        ];
 
     const totalItems = services.length;
     const angleStep = 360 / totalItems;
-    const radius = (wheel.offsetWidth / 2) * 0.85; // Raio 85% do contêiner da roda
+    const radius = (wheel.offsetWidth / 2) * 0.85;
     let activeIndex = 0;
     let rotationInterval;
 
-    // Gerar itens do círculo
     services.forEach((service, i) => {
         const angle = i * angleStep;
         const item = document.createElement('div');
         item.className = 'service-circle-item';
         item.dataset.index = i;
-        
-        const rotation = `rotate(${angle}deg) translate(${radius}px) rotate(${-angle}deg)`;
-        item.style.transform = rotation;
 
-        item.innerHTML = `<div class="service-icon">${service.icon}</div>`;
+        // Posiciona na roda; o ícone gira com a roda (sem correcção estática)
+        item.style.transform = `rotate(${angle}deg) translate(${radius}px)`;
+
+        const icon = (service.icon || '').trim() || String(i + 1);
+        item.innerHTML = `<div class="service-icon" style="transform: rotate(${-angle}deg)">${icon}</div>`;
         wheel.appendChild(item);
 
         item.addEventListener('click', () => {
@@ -296,12 +546,22 @@ function initServicesCircle() {
 
         items.forEach((item, i) => {
             item.classList.toggle('active', i === index);
+            // Mantém o ícone legível enquanto a roda gira
+            const iconEl = item.querySelector('.service-icon');
+            if (iconEl) {
+                const baseAngle = i * angleStep;
+                iconEl.style.transform = `rotate(${-baseAngle - rotationAngle}deg)`;
+            }
         });
 
         contentBox.classList.add('fade-out');
         setTimeout(() => {
             titleEl.textContent = services[index].title;
             detailsEl.textContent = services[index].details;
+            const bookBtn = document.getElementById('serviceBookBtn');
+            if (bookBtn) {
+                bookBtn.setAttribute('data-servico', services[index].title);
+            }
             contentBox.classList.remove('fade-out');
         }, 300);
     }
@@ -390,54 +650,11 @@ initPreloader();
 /* ============================================
    MODAL MODERNO DE NOTÍCIAS
    ============================================ */
-const NEWS_ARTICLES = [
-    {
-        date: '08 de Julho, 2026',
-        title: 'Missão de Cirurgiões Internacionais em Cumura',
-        images: [
-            'images/missao_2018.jpg',
-            'images/missao_h.webp',
-            'images/missao.jpg',
-            'images/hmh.jpg'
-        ],
-        paragraphs: [
-            'Recebemos uma equipe de cirurgiões voluntários que realizarão cirurgias reparadoras durante todo o mês de agosto. Esta é uma oportunidade importante para os nossos pacientes terem acesso a procedimentos especializados.',
-            'Os cirurgiões trabalharão em conjunto com a nossa equipe local, partilhando conhecimentos e experiências para o melhor atendimento aos pacientes.'
-        ]
-    },
-    {
-        date: '25 de Junho, 2026',
-        title: 'Campanha de Conscientização nas Aldeias',
-        images: [
-            'images/patio_8.jpeg',
-            'images/patio_1.jpeg',
-            'images/patio_6.jpeg',
-            'images/patio_9.jpeg'
-        ],
-        paragraphs: [
-            'A nossa equipe móvel visitou 5 aldeias na região de Biombo para educar a população sobre os sinais da hanseníase. Mais de 200 pessoas participaram das palestras e receberam materiais informativos.',
-            'O objetivo é quebrar tabus e estigmas, além de facilitar o diagnóstico precoce da doença.'
-        ]
-    },
-    {
-        date: '10 de Junho, 2026',
-        title: 'Hospital Recebe Doação de Medicamentos Essenciais',
-        images: [
-            'images/patio_4.jpeg',
-            'images/missao_h.webp',
-            'images/patio_3.jpeg'
-        ],
-        paragraphs: [
-            'Uma parceria com a OMS garantiu o fornecimento de PQT (Poliquimioterapia) para o tratamento de todos os nossos pacientes por mais um ano.',
-            'Esta doação é fundamental para garantir a continuidade do tratamento de forma gratuita e de qualidade.'
-        ]
-    }
-];
+const NEWS_ARTICLES = Array.isArray(window.SITE_NEWS) ? window.SITE_NEWS : [];
 
 function initNewsModal() {
     const modalEl = document.getElementById('newsModal');
-    if (!modalEl) {
-        console.error('Modal de notícias (#newsModal) não encontrado.');
+    if (!modalEl || !NEWS_ARTICLES.length) {
         return;
     }
 
@@ -497,7 +714,7 @@ function initNewsModal() {
 
     function setImage(index) {
         const article = NEWS_ARTICLES[articleIndex];
-        if (!article) return;
+        if (!article || !article.images || !article.images.length) return;
 
         imageIndex = (index + article.images.length) % article.images.length;
         imageEl.style.opacity = '0.4';
@@ -516,14 +733,25 @@ function initNewsModal() {
         });
     }
 
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
     function renderArticle(index) {
         const total = NEWS_ARTICLES.length;
+        if (!total) return;
         articleIndex = ((Number(index) % total) + total) % total;
         const article = NEWS_ARTICLES[articleIndex];
+        const images = Array.isArray(article.images) ? article.images : [];
+        const paragraphs = Array.isArray(article.paragraphs) ? article.paragraphs : [];
 
-        dateEl.textContent = article.date;
-        titleEl.textContent = article.title;
-        textEl.innerHTML = article.paragraphs.map(p => `<p>${p}</p>`).join('');
+        dateEl.textContent = article.date || '';
+        titleEl.textContent = article.title || '';
+        textEl.innerHTML = paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('');
 
         if (waEl) {
             const shareText = encodeURIComponent(`${article.title} — Hospital de Cumura`);
@@ -532,7 +760,7 @@ function initNewsModal() {
         }
 
         thumbsEl.innerHTML = '';
-        article.images.forEach((src, i) => {
+        images.forEach((src, i) => {
             const thumb = document.createElement('img');
             thumb.src = src;
             thumb.alt = `Foto ${i + 1}`;
@@ -547,11 +775,20 @@ function initNewsModal() {
         if (prevArticleBtn) prevArticleBtn.disabled = total < 2;
         if (nextArticleBtn) nextArticleBtn.disabled = total < 2;
 
-        const multi = article.images.length > 1;
+        const multi = images.length > 1;
         if (prevMediaBtn) prevMediaBtn.style.display = multi ? 'inline-flex' : 'none';
         if (nextMediaBtn) nextMediaBtn.style.display = multi ? 'inline-flex' : 'none';
+        if (counterEl) {
+            counterEl.style.display = images.length ? '' : 'none';
+        }
 
-        setImage(0);
+        if (images.length) {
+            setImage(0);
+        } else {
+            imageEl.removeAttribute('src');
+            imageEl.alt = '';
+            if (counterEl) counterEl.textContent = '0 / 0';
+        }
     }
 
     function openNews(index) {

@@ -1,7 +1,6 @@
 <?php
 /**
- * Copie este ficheiro para enviar-email.php e ajuste $destino.
- * O ficheiro real está no .gitignore.
+ * Copie para enviar-email.php e ajuste $destino / $maxPorHora.
  */
 header('Content-Type: application/json; charset=utf-8');
 
@@ -14,35 +13,76 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $destino = 'seu-email@exemplo.com';
 $assuntoPrefixo = '[HMH Cumura]';
 $guardarCopia = true;
+$maxPorHora = 8;
 
-$raw = file_get_contents('php://input');
-$data = json_decode($raw, true);
+$data = json_decode(file_get_contents('php://input'), true);
+if (!is_array($data)) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Pedido inválido.']);
+    exit;
+}
 
-$nome = trim((string)($data['nome'] ?? ''));
-$email = trim((string)($data['email'] ?? ''));
-$telefone = trim((string)($data['telefone'] ?? ''));
-$assunto = trim((string)($data['assunto'] ?? ''));
-$mensagem = trim((string)($data['mensagem'] ?? ''));
+if (trim((string) ($data['website'] ?? '')) !== '') {
+    echo json_encode(['success' => true, 'message' => 'Mensagem recebida com sucesso.']);
+    exit;
+}
 
-if ($nome === '' || $telefone === '' || $assunto === '' || $mensagem === '') {
+$nome = trim(str_replace(["\r", "\n"], '', (string) ($data['nome'] ?? '')));
+$email = trim(str_replace(["\r", "\n"], '', (string) ($data['email'] ?? '')));
+$telefone = trim(str_replace(["\r", "\n"], '', (string) ($data['telefone'] ?? '')));
+$assunto = trim(str_replace(["\r", "\n"], '', (string) ($data['assunto'] ?? '')));
+$servico = trim(str_replace(["\r", "\n"], '', (string) ($data['servico'] ?? '')));
+$mensagem = trim((string) ($data['mensagem'] ?? ''));
+
+if ($nome === '' || $telefone === '' || $assunto === '' || $mensagem === '' || empty($data['privacidade'])) {
     http_response_code(422);
     echo json_encode(['success' => false, 'message' => 'Preencha todos os campos obrigatórios.']);
     exit;
 }
 
-$corpo = "Nome: {$nome}\nE-mail: {$email}\nTelefone: {$telefone}\nAssunto: {$assunto}\n\n{$mensagem}\n";
+$dia = trim(str_replace(["\r", "\n"], '', (string) ($data['dia'] ?? '')));
+
+if ($assunto === 'Agendamento de Consulta') {
+    require_once __DIR__ . '/includes/content.php';
+
+    if ($servico === '') {
+        http_response_code(422);
+        echo json_encode(['success' => false, 'message' => 'Seleccione o serviço pretendido.']);
+        exit;
+    }
+    if ($dia === '') {
+        http_response_code(422);
+        echo json_encode(['success' => false, 'message' => 'Seleccione o dia no calendário.']);
+        exit;
+    }
+
+    $reserva = bookings_reserve($servico, $dia);
+    if (empty($reserva['ok'])) {
+        http_response_code(409);
+        echo json_encode([
+            'success' => false,
+            'message' => $reserva['message'] ?? 'Este dia já não tem vagas disponíveis.',
+        ]);
+        exit;
+    }
+}
+
+$corpo = "Nome: {$nome}\nE-mail: {$email}\nTelefone: {$telefone}\nAssunto: {$assunto}\n";
+if ($servico !== '') {
+    $corpo .= "Serviço: {$servico}\n";
+}
+if ($dia !== '') {
+    $corpo .= "Dia: {$dia}\n";
+}
+$corpo .= "\n{$mensagem}\n";
 
 if ($guardarCopia) {
     $pasta = __DIR__ . '/mensagens';
     if (!is_dir($pasta)) {
         mkdir($pasta, 0755, true);
     }
-    file_put_contents(
-        $pasta . '/' . date('Y-m-d_His') . '.txt',
-        $corpo
-    );
+    file_put_contents($pasta . '/' . date('Y-m-d_His') . '.txt', $corpo, LOCK_EX);
 }
 
 @mail($destino, $assuntoPrefixo . ' ' . $assunto, $corpo, 'Content-type: text/plain; charset=utf-8');
-
 echo json_encode(['success' => true, 'message' => 'Mensagem recebida com sucesso.']);
