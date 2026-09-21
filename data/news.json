@@ -1,0 +1,58 @@
+[
+  {
+    "id": "n1",
+    "featured": true,
+    "date": "08 de Julho, 2026",
+    "date_iso": "2026-07-08",
+    "tag": "Missão",
+    "title": "Missão de Cirurgiões Internacionais em Cumura",
+    "excerpt": "Recebemos uma equipe de cirurgiões voluntários que realizarão cirurgias reparadoras durante todo o mês de agosto.",
+    "paragraphs": [
+      "Recebemos uma equipe de cirurgiões voluntários que realizarão cirurgias reparadoras durante todo o mês de agosto. Esta é uma oportunidade importante para os nossos pacientes terem acesso a procedimentos especializados.",
+      "Os cirurgiões trabalharão em conjunto com a nossa equipe local, partilhando conhecimentos e experiências para o melhor atendimento aos pacientes."
+    ],
+    "images": [
+      "images/missao_2018.jpg",
+      "images/missao_h.webp",
+      "images/missao.jpg",
+      "images/hmh.jpg"
+    ]
+  },
+  {
+    "id": "n2",
+    "featured": false,
+    "date": "25 de Junho, 2026",
+    "date_iso": "2026-06-25",
+    "tag": "Comunidade",
+    "title": "Campanha de Conscientização nas Aldeias",
+    "excerpt": "Equipe móvel visitou 5 aldeias em Biombo para educar sobre os sinais da hanseníase.",
+    "paragraphs": [
+      "A nossa equipe móvel visitou 5 aldeias na região de Biombo para educar a população sobre os sinais da hanseníase. Mais de 200 pessoas participaram das palestras e receberam materiais informativos.",
+      "O objetivo é quebrar tabus e estigmas, além de facilitar o diagnóstico precoce da doença."
+    ],
+    "images": [
+      "images/patio_8.jpeg",
+      "images/patio_1.jpeg",
+      "images/patio_6.jpeg",
+      "images/patio_9.jpeg"
+    ]
+  },
+  {
+    "id": "n3",
+    "featured": false,
+    "date": "10 de Junho, 2026",
+    "date_iso": "2026-06-10",
+    "tag": "Parceria",
+    "title": "Doação de Medicamentos Essenciais",
+    "excerpt": "Parceria com a OMS garante PQT para o tratamento gratuito durante mais um ano.",
+    "paragraphs": [
+      "Uma parceria com a OMS garantiu o fornecimento de PQT (Poliquimioterapia) para o tratamento de todos os nossos pacientes por mais um ano.",
+      "Esta doação é fundamental para garantir a continuidade do tratamento de forma gratuita e de qualidade."
+    ],
+    "images": [
+      "images/patio_4.jpeg",
+      "images/missao_h.webp",
+      "images/patio_3.jpeg"
+    ]
+  }
+]
