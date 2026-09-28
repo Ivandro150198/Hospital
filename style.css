@@ -1916,3 +1916,254 @@ h1, h2, h3, h4, .section-title, .section-heading-left, .news-main-title, .news-i
         font-size: clamp(1.5rem, 7vw, 2rem);
     }
 }
+
+/* ============================================
+   PÁGINA GALERIA
+   ============================================ */
+.page-galeria {
+    background:
+        radial-gradient(ellipse 80% 50% at 10% 0%, rgba(31, 92, 69, 0.08), transparent 55%),
+        linear-gradient(180deg, #f7faf8 0%, #eef3f0 40%, #f7faf8 100%);
+}
+
+.gallery-page-hero {
+    position: relative;
+    margin-top: 7.5rem;
+    padding: 4rem 0 3rem;
+    overflow: hidden;
+}
+
+.gallery-page-hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(120deg, rgba(15, 46, 35, 0.88), rgba(31, 92, 69, 0.72)),
+        url('images/patio_10.jpeg') center / cover no-repeat;
+}
+
+.gallery-page-hero-inner {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    max-width: 720px;
+}
+
+.gallery-kicker {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.gallery-page-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 600;
+    margin: 0 0 0.85rem;
+    line-height: 1.15;
+}
+
+.gallery-page-intro {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    margin: 0;
+    opacity: 0.92;
+    max-width: 36rem;
+}
+
+.gallery-page-section {
+    padding: 3rem 0 5rem;
+}
+
+.gallery-masonry {
+    columns: 1;
+    column-gap: 1.25rem;
+}
+
+@media (min-width: 576px) {
+    .gallery-masonry { columns: 2; }
+}
+
+@media (min-width: 992px) {
+    .gallery-masonry { columns: 3; }
+}
+
+.gallery-card-public {
+    break-inside: avoid;
+    margin: 0 0 1.25rem;
+    background: transparent;
+}
+
+.gallery-card-trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: #1a3d2e;
+    cursor: zoom-in;
+    overflow: hidden;
+}
+
+.gallery-card-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+    transition: transform 0.55s ease, opacity 0.35s ease;
+    opacity: 0.96;
+}
+
+.gallery-card-trigger:hover img,
+.gallery-card-trigger:focus-visible img {
+    transform: scale(1.04);
+    opacity: 1;
+}
+
+.gallery-card-caption {
+    padding: 0.85rem 0.15rem 0.25rem;
+}
+
+.gallery-card-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-ink, #1a2e24);
+    margin: 0 0 0.35rem;
+}
+
+.gallery-card-desc {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--color-muted, #5a6b62);
+}
+
+.gallery-empty {
+    text-align: center;
+    color: var(--color-muted, #5a6b62);
+    padding: 3rem 1rem;
+}
+
+body.gallery-lightbox-open {
+    overflow: hidden;
+}
+
+.gallery-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.gallery-lightbox[hidden] {
+    display: none !important;
+}
+
+.gallery-lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 18, 14, 0.88);
+}
+
+.gallery-lightbox-dialog {
+    position: relative;
+    z-index: 1;
+    width: min(960px, 100%);
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-lightbox-figure {
+    margin: 0;
+    background: #0f1f18;
+    overflow: hidden;
+}
+
+.gallery-lightbox-figure img {
+    display: block;
+    width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    background: #0a1611;
+}
+
+.gallery-lightbox-caption {
+    padding: 1rem 1.25rem 1.25rem;
+    color: #e8f0eb;
+}
+
+.gallery-lightbox-caption h2 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 1.35rem;
+    margin: 0 0 0.4rem;
+}
+
+.gallery-lightbox-caption p {
+    margin: 0;
+    opacity: 0.88;
+    line-height: 1.5;
+}
+
+.gallery-lightbox-counter {
+    margin-top: 0.65rem !important;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    opacity: 0.65 !important;
+}
+
+.gallery-lightbox-close {
+    position: absolute;
+    top: -0.35rem;
+    right: 0;
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.gallery-lightbox-nav {
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(15, 31, 24, 0.55);
+    color: #fff;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.gallery-lightbox-prev { left: 0.5rem; }
+.gallery-lightbox-next { right: 0.5rem; }
+
+.gallery-lightbox-nav:hover,
+.gallery-lightbox-close:hover {
+    background: rgba(31, 92, 69, 0.85);
+}
+
+@media (max-width: 576px) {
+    .gallery-page-hero {
+        margin-top: 6.5rem;
+        padding: 3rem 0 2.25rem;
+    }
+
+    .gallery-lightbox-nav {
+        top: auto;
+        bottom: 5.5rem;
+        transform: none;
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "page_title": "Galeria",
+    "page_intro": "Imagens do Hospital do Mal de Hansen de Cumura — instalações, missões e vida comunitária.",
+    "items": [
+        {
+            "id": "g1",
+            "image": "images/patio_1.jpeg",
+            "title": "Pátio do hospital",
+            "description": "Espaços abertos onde utentes e famílias encontram acolhimento e sombra."
+        },
+        {
+            "id": "g2",
+            "image": "images/patio_3.jpeg",
+            "title": "Instalações",
+            "description": "Vista das instalações dedicadas ao cuidado e à reabilitação."
+        },
+        {
+            "id": "g3",
+            "image": "images/missao.jpg",
+            "title": "Missão médica",
+            "description": "Equipas em missão partilham conhecimento e reforçam o atendimento local."
+        },
+        {
+            "id": "g4",
+            "image": "images/patio_7.jpeg",
+            "title": "Ambiente hospitalar",
+            "description": "O quotidiano do hospital em Cumura, Região de Biombo."
+        },
+        {
+            "id": "g5",
+            "image": "images/hmh.jpg",
+            "title": "Hospital de Cumura",
+            "description": "Instituição de referência no tratamento da hanseníase na Guiné-Bissau."
+        },
+        {
+            "id": "g6",
+            "image": "images/patio_10.jpeg",
+            "title": "Comunidade",
+            "description": "Um espaço de dignidade, tratamento e reinserção social."
+        }
+    ]
+}

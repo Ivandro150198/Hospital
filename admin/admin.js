@@ -424,6 +424,123 @@
     });
   }
 
+  const galleryPrefixes = ['gallery_id', 'gallery_image', 'gallery_title', 'gallery_description'];
+
+  function syncGalleryMeta(card) {
+    const titleInput = card.querySelector('.gallery-title-input');
+    const descInput = card.querySelector('.gallery-description-input');
+    const titleLabel = card.querySelector('.list-title');
+    const meta = card.querySelector('.list-meta');
+    const title = (titleInput && titleInput.value.trim()) || '';
+    const desc = (descInput && descInput.value.trim()) || '';
+    if (titleLabel) titleLabel.textContent = title || 'Sem título';
+    if (meta) {
+      if (!desc) meta.textContent = 'Sem descrição';
+      else meta.textContent = desc.length > 80 ? desc.slice(0, 80) + '…' : desc;
+    }
+  }
+
+  function reindexGallery(container, countInput) {
+    const cards = [...container.querySelectorAll('.gallery-card')];
+    cards.forEach((card, i) => {
+      reindexNames(card, i, galleryPrefixes);
+      const fileInput = card.querySelector('.gallery-file-input');
+      if (fileInput) fileInput.setAttribute('name', `gallery_file_${i}`);
+      const num = card.querySelector('.gallery-num');
+      if (num) num.textContent = String(i + 1);
+      syncGalleryMeta(card);
+    });
+    countInput.value = String(cards.length);
+  }
+
+  const galleryWrap = document.getElementById('galleryWrap');
+  const galleryCount = document.getElementById('gallery_count');
+  const addGalleryBtn = document.getElementById('addGalleryBtn');
+  const galleryTemplate = document.getElementById('galleryTemplate');
+
+  if (galleryWrap && addGalleryBtn && galleryTemplate && galleryCount) {
+    galleryWrap.addEventListener('click', (e) => {
+      const card = e.target.closest('.gallery-card');
+      if (!card) return;
+
+      if (e.target.closest('.btn-edit-gallery')) {
+        const editor = card.querySelector('.list-editor');
+        setOpen(card, !!(editor && editor.hidden), '.btn-edit-gallery');
+        return;
+      }
+      if (e.target.closest('.btn-close-gallery')) {
+        setOpen(card, false, '.btn-edit-gallery');
+        syncGalleryMeta(card);
+        return;
+      }
+      if (e.target.closest('.btn-remove-gallery')) {
+        if (galleryWrap.querySelectorAll('.gallery-card').length <= 1) {
+          alert('Tem de manter pelo menos uma imagem na galeria.');
+          return;
+        }
+        if (!confirm('Remover esta imagem da galeria?')) return;
+        card.remove();
+        reindexGallery(galleryWrap, galleryCount);
+        return;
+      }
+      if (e.target.closest('.btn-move-up-gallery')) {
+        const prev = card.previousElementSibling;
+        if (prev) {
+          galleryWrap.insertBefore(card, prev);
+          reindexGallery(galleryWrap, galleryCount);
+        }
+        return;
+      }
+      if (e.target.closest('.btn-move-down-gallery')) {
+        const next = card.nextElementSibling;
+        if (next) {
+          galleryWrap.insertBefore(next, card);
+          reindexGallery(galleryWrap, galleryCount);
+        }
+      }
+    });
+
+    galleryWrap.addEventListener('input', (e) => {
+      const card = e.target.closest('.gallery-card');
+      if (!card) return;
+      if (
+        e.target.classList.contains('gallery-title-input') ||
+        e.target.classList.contains('gallery-description-input')
+      ) {
+        syncGalleryMeta(card);
+      }
+    });
+
+    galleryWrap.addEventListener('change', (e) => {
+      if (!e.target.classList.contains('gallery-file-input')) return;
+      const card = e.target.closest('.gallery-card');
+      if (!card || !e.target.files[0]) return;
+      const thumbImg = card.querySelector('.gallery-preview-img');
+      const thumb = card.querySelector('.list-thumb');
+      const thumbEmpty = card.querySelector('.list-thumb-empty');
+      if (thumbImg) {
+        thumbImg.src = URL.createObjectURL(e.target.files[0]);
+        thumbImg.hidden = false;
+        if (thumb) thumb.classList.remove('is-empty');
+        if (thumbEmpty) thumbEmpty.hidden = true;
+      }
+    });
+
+    addGalleryBtn.addEventListener('click', () => {
+      const i = galleryWrap.querySelectorAll('.gallery-card').length;
+      const html = galleryTemplate.innerHTML
+        .replaceAll('__I__', String(i))
+        .replaceAll('__N__', String(i + 1));
+      galleryWrap.insertAdjacentHTML('beforeend', html);
+      galleryCount.value = String(i + 1);
+      const newCard = galleryWrap.querySelector('.gallery-card:last-child');
+      if (newCard) {
+        setOpen(newCard, true, '.btn-edit-gallery');
+        newCard.querySelector('.gallery-title-input')?.focus();
+      }
+    });
+  }
+
   document.querySelectorAll('.path-copy').forEach((el) => {
     el.addEventListener('click', () => copyText(el.textContent || '', el));
   });

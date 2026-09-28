@@ -30,7 +30,7 @@ $waHanseniase = $waNumber !== ''
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css?v=20260921z">
+    <link rel="stylesheet" href="style.css?v=20260921gal">
 </head>
 <body>
 
@@ -70,6 +70,7 @@ $waHanseniase = $waNumber !== ''
                         <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
                         <li class="nav-item"><a class="nav-link" href="#hanseniase">Hanseníase</a></li>
                         <li class="nav-item"><a class="nav-link" href="#noticias">Notícias</a></li>
+                        <li class="nav-item"><a class="nav-link" href="galeria.php">Galeria</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contato">Contacto</a></li>
                         <li class="nav-item ms-lg-3"><a href="#contato" class="btn btn-agendar">Agendar Consulta</a></li>
                     </ul>
@@ -550,6 +551,7 @@ $waHanseniase = $waNumber !== ''
                     <ul class="footer-links">
                         <li><a href="#sobre">O Hospital</a></li>
                         <li><a href="#servicos">Serviços clínicos</a></li>
+                        <li><a href="galeria.php">Galeria</a></li>
                         <li><a href="#hanseniase">Informação sobre hanseníase</a></li>
                         <li><a href="#noticias">Notícias institucionais</a></li>
                         <li><a href="#contato">Contacto e doações</a></li>
@@ -604,6 +606,6 @@ $waHanseniase = $waNumber !== ''
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>window.SITE_NEWS = <?= json_encode(news_for_js($news), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;</script>
     <script>window.SITE_SERVICES = <?= json_encode(services_for_js($services), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;</script>
-    <script src="script.js?v=20260921aa"></script>
+    <script src="script.js?v=20260921gal"></script>
 </body>
 </html>

@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$destino = 'seu-email@exemplo.com';
+$destino = getenv('MAIL_TO') ?: 'seu-email@exemplo.com';
 $assuntoPrefixo = '[HMH Cumura]';
 $guardarCopia = true;
 $maxPorHora = 8;
