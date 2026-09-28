@@ -2,7 +2,21 @@
 
 Site institucional do Hospital do Mal de Hansen de Cumura, Região de Biombo, Guiné-Bissau.
 
-> **Nota:** este site usa **PHP**. Não funciona no Vercel (nem em hosts só estáticos). Use hosting com **PHP 8+** e Apache (cPanel, Hostinger, etc.).
+> **Nota:** este site usa **PHP**. No Render sobe com o `Dockerfile` desta pasta (o Render não tem runtime PHP nativo). Também funciona em hosting com **PHP 8+** e Apache (cPanel, Hostinger, etc.). Não funciona no Vercel nem em hosts só estáticos.
+
+## Publicar no Render
+
+1. Envie este repositório para o GitHub.
+2. No [Render](https://dashboard.render.com), **New → Blueprint** e escolha o repositório (usa `render.yaml`).
+3. Defina as variáveis pedidas:
+   - `ADMIN_PASSWORD_HASH` — hash da password do admin (`php -r "echo password_hash('SUA-PASSWORD', PASSWORD_DEFAULT);"`)
+   - `MAIL_TO` — e-mail que recebe o formulário
+4. Quando o serviço estiver no ar, em **Settings → Custom Domains** adicione o domínio.
+5. No painel DNS do registrador, crie o registo que o Render indicar (em geral `CNAME` do `www` para `hmh-cumura.onrender.com`, e o registo de apex que o painel mostrar).
+
+O plano gratuito adormece após inactividade e **não guarda** alterações do admin (textos, marcações, fotos) depois de um restart. Para esses dados sobreviverem, use um plano pago com disco persistente montado em `/var/hmh-data` e a variável `HMH_DATA_ROOT=/var/hmh-data`.
+
+O Render já redirecciona HTTP para HTTPS. A função `mail()` do PHP em geral não entrega e-mail neste alojamento; as cópias ficam na pasta `mensagens/` do contentor.
 
 ## Como correr localmente
 

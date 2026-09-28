@@ -273,6 +273,11 @@ function admin_sync_static_files(array $seo): void
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>{$base}/galeria.php</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>{$base}/privacidade.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -565,4 +570,125 @@ function bookings_month_availability(string $serviceTitle, int $year, int $month
         ];
     }
     return $out;
+}
+
+function gallery_defaults(): array
+{
+    return [
+        'page_title' => 'Galeria',
+        'page_intro' => 'Imagens do Hospital do Mal de Hansen de Cumura — instalações, missões e vida comunitária.',
+        'items' => [
+            [
+                'id' => 'g1',
+                'image' => 'images/patio_1.jpeg',
+                'title' => 'Pátio do hospital',
+                'description' => 'Espaços abertos onde utentes e famílias encontram acolhimento e sombra.',
+            ],
+            [
+                'id' => 'g2',
+                'image' => 'images/patio_3.jpeg',
+                'title' => 'Instalações',
+                'description' => 'Vista das instalações dedicadas ao cuidado e à reabilitação.',
+            ],
+            [
+                'id' => 'g3',
+                'image' => 'images/missao.jpg',
+                'title' => 'Missão médica',
+                'description' => 'Equipas em missão partilham conhecimento e reforçam o atendimento local.',
+            ],
+            [
+                'id' => 'g4',
+                'image' => 'images/patio_7.jpeg',
+                'title' => 'Ambiente hospitalar',
+                'description' => 'O quotidiano do hospital em Cumura, Região de Biombo.',
+            ],
+            [
+                'id' => 'g5',
+                'image' => 'images/hmh.jpg',
+                'title' => 'Hospital de Cumura',
+                'description' => 'Instituição de referência no tratamento da hanseníase na Guiné-Bissau.',
+            ],
+            [
+                'id' => 'g6',
+                'image' => 'images/patio_10.jpeg',
+                'title' => 'Comunidade',
+                'description' => 'Um espaço de dignidade, tratamento e reinserção social.',
+            ],
+        ],
+    ];
+}
+
+function gallery_load(): array
+{
+    $data = content_json_read('gallery.json', gallery_defaults());
+    if (!is_array($data)) {
+        return gallery_defaults();
+    }
+
+    $items = [];
+    $rawItems = $data['items'] ?? [];
+    if (!is_array($rawItems)) {
+        $rawItems = [];
+    }
+
+    foreach ($rawItems as $item) {
+        if (!is_array($item)) {
+            continue;
+        }
+        $image = content_clean((string) ($item['image'] ?? ''), 260);
+        if ($image === '') {
+            continue;
+        }
+        $id = content_clean((string) ($item['id'] ?? ''), 40);
+        if ($id === '') {
+            $id = 'g' . substr(bin2hex(random_bytes(4)), 0, 8);
+        }
+        $items[] = [
+            'id' => $id,
+            'image' => $image,
+            'title' => content_clean((string) ($item['title'] ?? ''), 160),
+            'description' => content_clean((string) ($item['description'] ?? ''), 500),
+        ];
+    }
+
+    return [
+        'page_title' => content_clean((string) ($data['page_title'] ?? 'Galeria'), 120) ?: 'Galeria',
+        'page_intro' => content_clean((string) ($data['page_intro'] ?? ''), 400),
+        'items' => $items,
+    ];
+}
+
+function gallery_save(array $input): bool
+{
+    $items = [];
+    $rawItems = $input['items'] ?? [];
+    if (!is_array($rawItems)) {
+        $rawItems = [];
+    }
+
+    foreach ($rawItems as $item) {
+        if (!is_array($item)) {
+            continue;
+        }
+        $image = content_clean((string) ($item['image'] ?? ''), 260);
+        if ($image === '') {
+            continue;
+        }
+        $id = content_clean((string) ($item['id'] ?? ''), 40);
+        if ($id === '') {
+            $id = 'g' . substr(bin2hex(random_bytes(4)), 0, 8);
+        }
+        $items[] = [
+            'id' => $id,
+            'image' => $image,
+            'title' => content_clean((string) ($item['title'] ?? ''), 160),
+            'description' => content_clean((string) ($item['description'] ?? ''), 500),
+        ];
+    }
+
+    return content_json_write('gallery.json', [
+        'page_title' => content_clean((string) ($input['page_title'] ?? 'Galeria'), 120) ?: 'Galeria',
+        'page_intro' => content_clean((string) ($input['page_intro'] ?? ''), 400),
+        'items' => $items,
+    ]);
 }

@@ -4,7 +4,7 @@ require_once dirname(__DIR__) . '/includes/content.php';
 admin_require_login();
 
 $tab = $_GET['tab'] ?? 'seo';
-$allowedTabs = ['seo', 'servicos', 'noticias'];
+$allowedTabs = ['seo', 'galeria', 'servicos', 'noticias'];
 if (!in_array($tab, $allowedTabs, true)) {
     $tab = 'seo';
 }
@@ -14,6 +14,7 @@ $error = '';
 $seo = seo_load();
 $services = services_load();
 $news = news_load();
+$gallery = gallery_load();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!admin_verify_csrf($_POST['csrf'] ?? null)) {
@@ -29,6 +30,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $tab = 'seo';
             } else {
                 $error = 'Não foi possível guardar o SEO.';
+            }
+        }
+
+        if ($action === 'save_gallery') {
+            $items = [];
+            $count = (int) ($_POST['gallery_count'] ?? 0);
+            $uploadErrors = [];
+            for ($i = 0; $i < $count; $i++) {
+                $image = trim((string) ($_POST["gallery_image_$i"] ?? ''));
+                $fileKey = "gallery_file_$i";
+                if (!empty($_FILES[$fileKey]['name']) && ($_FILES[$fileKey]['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+                    $result = image_upload($_FILES[$fileKey]);
+                    if ($result['ok']) {
+                        $image = $result['path'];
+                    } else {
+                        $uploadErrors[] = 'Item ' . ($i + 1) . ': ' . $result['message'];
+                    }
+                }
+                if ($image === '') {
+                    continue;
+                }
+                $items[] = [
+                    'id' => $_POST["gallery_id_$i"] ?? '',
+                    'image' => $image,
+                    'title' => $_POST["gallery_title_$i"] ?? '',
+                    'description' => $_POST["gallery_description_$i"] ?? '',
+                ];
+            }
+            $payload = [
+                'page_title' => $_POST['gallery_page_title'] ?? 'Galeria',
+                'page_intro' => $_POST['gallery_page_intro'] ?? '',
+                'items' => $items,
+            ];
+            if ($uploadErrors && !$items) {
+                $error = implode(' ', $uploadErrors);
+                $tab = 'galeria';
+            } elseif (gallery_save($payload)) {
+                $gallery = gallery_load();
+                $message = 'Galeria guardada.' . ($uploadErrors ? ' Avisos: ' . implode(' ', $uploadErrors) : '');
+                $tab = 'galeria';
+            } else {
+                $error = 'Não foi possível guardar a galeria.';
+                $tab = 'galeria';
             }
         }
 
@@ -157,7 +201,7 @@ function field_input(string $name, string $value, string $label, string $type = 
     <meta name="robots" content="noindex,nofollow">
     <title>Admin · HMH Cumura</title>
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="admin.css?v=20260921w">
+    <link rel="stylesheet" href="admin.css?v=20260921gal">
 </head>
 <body>
     <header class="admin-top">
@@ -175,6 +219,7 @@ function field_input(string $name, string $value, string $label, string $type = 
 
     <nav class="admin-tabs" aria-label="Secções do painel">
         <a class="tab <?= $tab === 'seo' ? 'active' : '' ?>" href="?tab=seo">SEO</a>
+        <a class="tab <?= $tab === 'galeria' ? 'active' : '' ?>" href="?tab=galeria">Galeria</a>
         <a class="tab <?= $tab === 'servicos' ? 'active' : '' ?>" href="?tab=servicos">Serviços</a>
         <a class="tab <?= $tab === 'noticias' ? 'active' : '' ?>" href="?tab=noticias">Notícias</a>
     </nav>
@@ -266,6 +311,98 @@ function field_input(string $name, string $value, string $label, string $type = 
             </section>
             <div class="form-footer row-actions">
                 <button type="submit" class="btn primary">Guardar SEO</button>
+            </div>
+        </form>
+        <?php endif; ?>
+
+        <?php if ($tab === 'galeria'): ?>
+        <form method="post" class="admin-form" id="galleryForm" enctype="multipart/form-data">
+            <input type="hidden" name="csrf" value="<?= e($csrf) ?>">
+            <input type="hidden" name="action" value="save_gallery">
+
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>Página Galeria</h2>
+                </div>
+                <p class="hint" style="margin-top:0">Título e texto de introdução apresentados em <a href="../galeria.php" target="_blank" rel="noopener">galeria.php</a>.</p>
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="gallery_page_title">Título da página</label>
+                        <input type="text" id="gallery_page_title" name="gallery_page_title" value="<?= e($gallery['page_title'] ?? 'Galeria') ?>">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="gallery_page_intro">Introdução</label>
+                    <textarea id="gallery_page_intro" name="gallery_page_intro" rows="2"><?= e($gallery['page_intro'] ?? '') ?></textarea>
+                </div>
+            </section>
+
+            <section class="panel slides-panel">
+                <div class="panel-head">
+                    <h2>Imagens da galeria</h2>
+                    <button type="button" class="btn ghost-dark" id="addGalleryBtn">+ Adicionar</button>
+                </div>
+                <p class="hint" style="margin-top:0">Cada item tem imagem, título e descrição. Use as acções para editar, reordenar ou remover.</p>
+                <ul class="item-list" id="galleryWrap">
+                <?php
+                $galleryItems = $gallery['items'] ?? [];
+                if (!$galleryItems) {
+                    $galleryItems = [['id' => '', 'image' => '', 'title' => '', 'description' => '']];
+                }
+                foreach ($galleryItems as $i => $gItem):
+                    $gTitle = $gItem['title'] ?? '';
+                    $gImage = $gItem['image'] ?? '';
+                    $gDesc = $gItem['description'] ?? '';
+                ?>
+                <li class="list-item gallery-card" data-index="<?= (int) $i ?>">
+                    <div class="list-row">
+                        <div class="list-thumb<?= $gImage === '' ? ' is-empty' : '' ?>">
+                            <?php if ($gImage !== ''): ?>
+                            <img src="../<?= e($gImage) ?>" alt="" class="list-thumb-img gallery-preview-img">
+                            <?php else: ?>
+                            <span class="list-thumb-empty">—</span>
+                            <img src="" alt="" class="list-thumb-img gallery-preview-img" hidden>
+                            <?php endif; ?>
+                        </div>
+                        <div class="list-info">
+                            <strong class="list-label">Foto <span class="gallery-num"><?= (int) $i + 1 ?></span></strong>
+                            <span class="list-title"><?= e($gTitle !== '' ? $gTitle : 'Sem título') ?></span>
+                            <span class="list-meta"><?= e($gDesc !== '' ? mb_substr($gDesc, 0, 80) . (mb_strlen($gDesc) > 80 ? '…' : '') : 'Sem descrição') ?></span>
+                        </div>
+                        <div class="list-actions">
+                            <button type="button" class="btn action btn-edit-gallery" title="Editar">Editar</button>
+                            <button type="button" class="btn action btn-move-up-gallery" title="Subir">↑</button>
+                            <button type="button" class="btn action btn-move-down-gallery" title="Descer">↓</button>
+                            <button type="button" class="btn action danger btn-remove-gallery" title="Remover">Remover</button>
+                        </div>
+                    </div>
+                    <div class="list-editor" hidden>
+                        <input type="hidden" name="gallery_id_<?= (int) $i ?>" value="<?= e($gItem['id'] ?? '') ?>">
+                        <input type="hidden" name="gallery_image_<?= (int) $i ?>" class="gallery-image-input" value="<?= e($gImage) ?>">
+                        <div class="field">
+                            <label>Título</label>
+                            <input type="text" name="gallery_title_<?= (int) $i ?>" class="gallery-title-input" value="<?= e($gTitle) ?>" placeholder="Ex.: Pátio do hospital">
+                        </div>
+                        <div class="field">
+                            <label>Descrição</label>
+                            <textarea name="gallery_description_<?= (int) $i ?>" class="gallery-description-input" rows="3" placeholder="Breve legenda profissional da imagem"><?= e($gDesc) ?></textarea>
+                        </div>
+                        <div class="field">
+                            <label>Imagem</label>
+                            <input type="file" name="gallery_file_<?= (int) $i ?>" class="gallery-file-input" accept="image/jpeg,image/png,image/webp,image/gif">
+                            <p class="hint">JPG, PNG, WebP ou GIF · máx. 5MB<?= $gImage !== '' ? ' · actual: ' . e($gImage) : '' ?></p>
+                        </div>
+                        <div class="editor-footer">
+                            <button type="button" class="btn ghost-dark btn-close-gallery">Fechar edição</button>
+                        </div>
+                    </div>
+                </li>
+                <?php endforeach; ?>
+                </ul>
+            </section>
+            <input type="hidden" name="gallery_count" id="gallery_count" value="<?= count($galleryItems) ?>">
+            <div class="form-footer row-actions">
+                <button type="submit" class="btn primary">Guardar galeria</button>
             </div>
         </form>
         <?php endif; ?>
@@ -460,6 +597,48 @@ function field_input(string $name, string $value, string $label, string $type = 
         <?php endif; ?>
     </main>
 
+    <template id="galleryTemplate">
+        <li class="list-item gallery-card is-open" data-index="__I__">
+            <div class="list-row">
+                <div class="list-thumb is-empty">
+                    <span class="list-thumb-empty">—</span>
+                    <img src="" alt="" class="list-thumb-img gallery-preview-img" hidden>
+                </div>
+                <div class="list-info">
+                    <strong class="list-label">Foto <span class="gallery-num">__N__</span></strong>
+                    <span class="list-title">Sem título</span>
+                    <span class="list-meta">Sem descrição</span>
+                </div>
+                <div class="list-actions">
+                    <button type="button" class="btn action btn-edit-gallery" title="Editar">Editar</button>
+                    <button type="button" class="btn action btn-move-up-gallery" title="Subir">↑</button>
+                    <button type="button" class="btn action btn-move-down-gallery" title="Descer">↓</button>
+                    <button type="button" class="btn action danger btn-remove-gallery" title="Remover">Remover</button>
+                </div>
+            </div>
+            <div class="list-editor">
+                <input type="hidden" name="gallery_id___I__" value="">
+                <input type="hidden" name="gallery_image___I__" class="gallery-image-input" value="">
+                <div class="field">
+                    <label>Título</label>
+                    <input type="text" name="gallery_title___I__" class="gallery-title-input" value="" placeholder="Ex.: Pátio do hospital">
+                </div>
+                <div class="field">
+                    <label>Descrição</label>
+                    <textarea name="gallery_description___I__" class="gallery-description-input" rows="3" placeholder="Breve legenda profissional da imagem"></textarea>
+                </div>
+                <div class="field">
+                    <label>Imagem</label>
+                    <input type="file" name="gallery_file___I__" class="gallery-file-input" accept="image/jpeg,image/png,image/webp,image/gif">
+                    <p class="hint">JPG, PNG, WebP ou GIF · máx. 5MB</p>
+                </div>
+                <div class="editor-footer">
+                    <button type="button" class="btn ghost-dark btn-close-gallery">Fechar edição</button>
+                </div>
+            </div>
+        </li>
+    </template>
+
     <template id="serviceTemplate">
         <li class="list-item service-card is-open" data-index="__I__">
             <div class="list-row seo-row">
@@ -568,6 +747,6 @@ function field_input(string $name, string $value, string $label, string $type = 
         </li>
     </template>
 
-    <script src="admin.js?v=20260921x"></script>
+    <script src="admin.js?v=20260921gal"></script>
 </body>
 </html>

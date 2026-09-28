@@ -180,15 +180,19 @@ function seo_e(?string $value): string
     return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-function seo_render_head(array $seo): void
+function seo_render_head(array $seo, array $overrides = []): void
 {
-    $canonical = rtrim($seo['canonical_url'], '/') . '/';
+    $canonical = $overrides['canonical'] ?? (rtrim($seo['canonical_url'], '/') . '/');
+    $title = $overrides['title'] ?? $seo['title'];
+    $description = $overrides['description'] ?? $seo['description'];
+    $ogTitle = $overrides['og_title'] ?? ($overrides['title'] ?? $seo['og_title']);
+    $ogDescription = $overrides['og_description'] ?? ($overrides['description'] ?? $seo['og_description']);
     $schema = [
         '@context' => 'https://schema.org',
         '@type' => 'Hospital',
         'name' => $seo['site_name'],
         'alternateName' => $seo['site_short_name'],
-        'url' => $canonical,
+        'url' => rtrim($seo['canonical_url'], '/') . '/',
         'image' => $seo['og_image'],
         'description' => $seo['schema_description'],
         'address' => [
@@ -205,21 +209,21 @@ function seo_render_head(array $seo): void
     ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title><?= seo_e($seo['title']) ?></title>
-<meta name="description" content="<?= seo_e($seo['description']) ?>">
+<title><?= seo_e($title) ?></title>
+<meta name="description" content="<?= seo_e($description) ?>">
 <meta name="theme-color" content="<?= seo_e($seo['theme_color']) ?>">
 <meta name="robots" content="<?= seo_e($seo['robots']) ?>">
 <link rel="canonical" href="<?= seo_e($canonical) ?>">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="<?= seo_e($seo['og_title']) ?>">
-<meta property="og:description" content="<?= seo_e($seo['og_description']) ?>">
+<meta property="og:title" content="<?= seo_e($ogTitle) ?>">
+<meta property="og:description" content="<?= seo_e($ogDescription) ?>">
 <meta property="og:image" content="<?= seo_e($seo['og_image']) ?>">
 <meta property="og:url" content="<?= seo_e($canonical) ?>">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="<?= seo_e($seo['og_locale']) ?>">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="<?= seo_e($seo['twitter_title']) ?>">
-<meta name="twitter:description" content="<?= seo_e($seo['twitter_description']) ?>">
+<meta name="twitter:title" content="<?= seo_e($overrides['twitter_title'] ?? $ogTitle) ?>">
+<meta name="twitter:description" content="<?= seo_e($overrides['twitter_description'] ?? $ogDescription) ?>">
 <meta name="twitter:image" content="<?= seo_e($seo['twitter_image']) ?>">
 <script type="application/ld+json"><?= json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?></script>
 <?php

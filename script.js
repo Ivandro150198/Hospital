@@ -24,7 +24,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 /* ============================================
    FORMULÁRIO DE CONTATO
    ============================================ */
-document.getElementById('formAgendamento').addEventListener('submit', async function (e) {
+const formAgendamento = document.getElementById('formAgendamento');
+if (formAgendamento) {
+formAgendamento.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const form = this;
@@ -95,11 +97,14 @@ document.getElementById('formAgendamento').addEventListener('submit', async func
         btn.disabled = false;
     }
 });
+}
 
 /* ============================================
    MASCARA DE TELEFONE (padrão Guiné-Bissau +245, 7 dígitos)
    ============================================ */
-document.getElementById('telefone').addEventListener('input', function (e) {
+const telefoneInput = document.getElementById('telefone');
+if (telefoneInput) {
+telefoneInput.addEventListener('input', function (e) {
     let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for dígito
     if (value.length > 7) value = value.slice(0, 7); // Limita a 7 dígitos
     
@@ -113,6 +118,7 @@ document.getElementById('telefone').addEventListener('input', function (e) {
     }
     e.target.value = value;
 });
+}
 
 /* ============================================
    ANIMAÇÕES AO ROLAR (INTERSECTION OBSERVER)
@@ -184,6 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAssuntoLinks();
     initServicoField();
     initNewsModal();
+    initPublicGallery();
 });
 
 /* ============================================
@@ -852,4 +859,78 @@ function initNewsModal() {
     }, { passive: true });
 
     window.openNewsModal = openNews;
+}
+
+/* ============================================
+   GALERIA PÚBLICA (lightbox)
+   ============================================ */
+function initPublicGallery() {
+    const lightbox = document.getElementById('galleryLightbox');
+    const grid = document.getElementById('galleryGrid');
+    if (!lightbox || !grid) return;
+
+    const items = Array.isArray(window.SITE_GALLERY) ? window.SITE_GALLERY : [];
+    if (!items.length) return;
+
+    const imgEl = document.getElementById('galleryLightboxImg');
+    const titleEl = document.getElementById('galleryLightboxTitle');
+    const descEl = document.getElementById('galleryLightboxDesc');
+    const counterEl = document.getElementById('galleryLightboxCounter');
+    const prevBtn = document.getElementById('galleryLightboxPrev');
+    const nextBtn = document.getElementById('galleryLightboxNext');
+    let index = 0;
+
+    function show(i) {
+        index = (i + items.length) % items.length;
+        const item = items[index];
+        if (imgEl) {
+            imgEl.src = item.image || '';
+            imgEl.alt = item.title || 'Imagem da galeria';
+        }
+        if (titleEl) {
+            titleEl.textContent = item.title || '';
+            titleEl.hidden = !item.title;
+        }
+        if (descEl) {
+            descEl.textContent = item.description || '';
+            descEl.hidden = !item.description;
+        }
+        if (counterEl) {
+            counterEl.textContent = `${index + 1} / ${items.length}`;
+        }
+        const multi = items.length > 1;
+        if (prevBtn) prevBtn.hidden = !multi;
+        if (nextBtn) nextBtn.hidden = !multi;
+    }
+
+    function open(i) {
+        show(i);
+        lightbox.hidden = false;
+        document.body.classList.add('gallery-lightbox-open');
+    }
+
+    function close() {
+        lightbox.hidden = true;
+        document.body.classList.remove('gallery-lightbox-open');
+        if (imgEl) imgEl.removeAttribute('src');
+    }
+
+    grid.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-gallery-index]');
+        if (!btn) return;
+        open(parseInt(btn.getAttribute('data-gallery-index'), 10) || 0);
+    });
+
+    lightbox.querySelectorAll('[data-gallery-close]').forEach((el) => {
+        el.addEventListener('click', close);
+    });
+    if (prevBtn) prevBtn.addEventListener('click', () => show(index - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => show(index + 1));
+
+    document.addEventListener('keydown', (e) => {
+        if (lightbox.hidden) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') show(index - 1);
+        if (e.key === 'ArrowRight') show(index + 1);
+    });
 }
